@@ -7,8 +7,8 @@ export const basicAuth = (req: any, res: any, next: any) => {
       .split(":");
     console.log("basic auth", authorization, login, password);
     if (login === "admin" && password === "qwerty") {
-      next();
+      return next();
     }
   }
-  res.send(401);
+  return res.send(401);
 };

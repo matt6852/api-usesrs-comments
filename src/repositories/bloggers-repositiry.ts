@@ -12,7 +12,17 @@ export const bloggersRepository = {
       filter.name = { $regex: name };
     }
     const allBloggers = await bloggerCollection.find(filter).toArray();
-    return allBloggers;
+    console.log(allBloggers);
+    const redone = allBloggers.map((blogger: any) => {
+      const newOne: any = {
+        name: blogger.name,
+        id: blogger.id,
+        youtubeUrl: blogger.youtubeUrl,
+      };
+      return newOne;
+    });
+
+    return redone;
   },
   async createNewBBlogger(newBlogger: newBlogger) {
     const done = await bloggerCollection.insertOne(newBlogger);

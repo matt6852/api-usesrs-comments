@@ -14,7 +14,6 @@ export const postsRepository = {
     const allPosts = await postsCollection.find(filter).toArray();
     const redone = allPosts.map((post: any) => {
       const newOne: any = {
-        name: post.title,
         id: post.id,
         shortDescription: post.shortDescription,
         content: post.content,

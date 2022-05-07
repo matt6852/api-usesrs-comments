@@ -46,6 +46,7 @@ export const bloggersRepository = {
   async getSingleBlogger(id: number) {
     const singleBlogger = await bloggerCollection.findOne({ id });
     console.log(singleBlogger);
+    if (!singleBlogger) return null;
     const createdOne = {
       id: singleBlogger!.id,
       name: singleBlogger!.name,

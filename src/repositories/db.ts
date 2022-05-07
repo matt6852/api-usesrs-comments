@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 const mongoUri = (process.env.mongoURI =
-  "mongodb://0.0.0.0:27017/?maxPoolSize=20&w=majority");
+  "mongodb+srv://sergey:qwerty52@nodeexpressprojects.grjmz.mongodb.net/Bloggers?retryWrites=true&w=majority");
 
 export const client = new MongoClient(mongoUri);
 

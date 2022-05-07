@@ -2,6 +2,7 @@ import { isId } from "./../middleware/bloggers-middleware";
 import { Request, Response, Router } from "express";
 import { bloggerService } from "../domain/bloggers-service";
 import { isBloggerValid } from "../middleware/bloggers-middleware";
+import { basicAuth } from "../middleware/basic-aurh";
 
 const bloggerRouter = Router({});
 
@@ -20,7 +21,7 @@ bloggerRouter
     }
     return res.sendStatus(404);
   })
-  .post("/", isBloggerValid, async (req: Request, res: Response) => {
+  .post("/", basicAuth, isBloggerValid, async (req: Request, res: Response) => {
     const { name, youtubeUrl } = req.body;
     const isCreated = await bloggerService.createNewBlogger(name, youtubeUrl);
     if (isCreated) {
@@ -28,7 +29,7 @@ bloggerRouter
     }
     return res.sendStatus(400);
   })
-  .delete("/:id", isId, async (req: Request, res: Response) => {
+  .delete("/:id", basicAuth, isId, async (req: Request, res: Response) => {
     const { id } = req.params;
     const isDeleted = await bloggerService.delete(+id);
     if (isDeleted) {
@@ -36,14 +37,24 @@ bloggerRouter
     }
     return res.sendStatus(404);
   })
-  .put("/:id", isId, isBloggerValid, async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { name, youtubeUrl } = req.body;
-    const isUpdated = await bloggerService.updateBlogger(+id, name, youtubeUrl);
-    if (isUpdated) {
-      return res.sendStatus(201);
+  .put(
+    "/:id",
+    basicAuth,
+    isId,
+    isBloggerValid,
+    async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const { name, youtubeUrl } = req.body;
+      const isUpdated = await bloggerService.updateBlogger(
+        +id,
+        name,
+        youtubeUrl
+      );
+      if (isUpdated) {
+        return res.sendStatus(201);
+      }
+      return res.send(404);
     }
-    return res.send(404);
-  });
+  );
 
 export default bloggerRouter;

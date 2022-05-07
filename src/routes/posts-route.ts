@@ -8,6 +8,7 @@ import {
   isCreatPostValid,
   isUpdatedPostValid,
 } from "../middleware/posts-middleware";
+import { basicAuth } from "../middleware/basic-aurh";
 
 const postsRoute = Router({});
 
@@ -24,20 +25,25 @@ postsRoute
       return res.send(singlePost);
     } else return res.sendStatus(404);
   })
-  .post("/", isCreatPostValid, async (req: Request, res: Response) => {
-    const { title, shortDescription, content, bloggerId } = req.body;
-    const created = await postsService.createNewPost(
-      title,
-      shortDescription,
-      content,
-      bloggerId
-    );
-    if (created) {
-      return res.sendStatus(201);
+  .post(
+    "/",
+    basicAuth,
+    isCreatPostValid,
+    async (req: Request, res: Response) => {
+      const { title, shortDescription, content, bloggerId } = req.body;
+      const created = await postsService.createNewPost(
+        title,
+        shortDescription,
+        content,
+        bloggerId
+      );
+      if (created) {
+        return res.sendStatus(201);
+      }
+      return res.sendStatus(404);
     }
-    return res.sendStatus(404);
-  })
-  .delete("/:id", async (req: Request, res: Response) => {
+  )
+  .delete("/:id", basicAuth, async (req: Request, res: Response) => {
     const { id } = req.params;
     const isDeleted = await postsService.delete(+id);
     if (isDeleted) {
@@ -45,19 +51,24 @@ postsRoute
     }
     return res.sendStatus(404);
   })
-  .put("/:id", isUpdatedPostValid, async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const { title, shortDescription, content } = req.body;
-    const updated = await postsService.updatePost(
-      +id,
-      title,
-      shortDescription,
-      content
-    );
-    if (updated) {
-      return res.sendStatus(201);
+  .put(
+    "/:id",
+    basicAuth,
+    isUpdatedPostValid,
+    async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const { title, shortDescription, content } = req.body;
+      const updated = await postsService.updatePost(
+        +id,
+        title,
+        shortDescription,
+        content
+      );
+      if (updated) {
+        return res.sendStatus(201);
+      }
+      return res.sendStatus(404);
     }
-    return res.sendStatus(404);
-  });
+  );
 
 export default postsRoute;

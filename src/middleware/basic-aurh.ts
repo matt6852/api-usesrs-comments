@@ -1,4 +1,3 @@
-import { send } from "process";
 export const basicAuth = (req: any, res: any, next: any) => {
   const { authorization } = req.headers;
   if (authorization) {

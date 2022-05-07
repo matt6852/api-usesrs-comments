@@ -2,7 +2,7 @@ import { Response, Request, NextFunction } from "express";
 
 type ErrorType = {
   field: string;
-  error: string;
+  message: string;
 };
 
 export const isCreatPostValid = (
@@ -15,33 +15,33 @@ export const isCreatPostValid = (
   if (!title) {
     const error: ErrorType = {
       field: "title",
-      error: "required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (!shortDescription) {
     const error: ErrorType = {
       field: "shortDescription",
-      error: "required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (!content) {
     const error: ErrorType = {
       field: "content",
-      error: "required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (!bloggerId) {
     const error: ErrorType = {
       field: "bloggerId",
-      error: "required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (errorsArray.length) {
-    res.status(400).send({ errorMessage: errorsArray });
+    res.status(400).send({ errorMessage: errorsArray, resultCode: 1 });
   } else {
     next();
   }

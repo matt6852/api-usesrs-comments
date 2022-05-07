@@ -27,7 +27,8 @@ export const isBloggerValid = (
     };
     errorsArray.push(error);
   }
-  if (!youtubeUrl.match(regx)) {
+
+  if (youtubeUrl && !youtubeUrl.match(regx)) {
     const error: ErrorType = {
       field: "youtubeUrl",
       message: `string`,

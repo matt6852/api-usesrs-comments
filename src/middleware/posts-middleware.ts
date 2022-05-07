@@ -58,21 +58,21 @@ export const isUpdatedPostValid = (
   if (!title) {
     const error: ErrorType = {
       field: "title",
-      error: " required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (!shortDescription) {
     const error: ErrorType = {
       field: "shortDescription",
-      error: "required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (!content) {
     const error: ErrorType = {
       field: "content",
-      error: "required",
+      message: "string",
     };
     errorsArray.push(error);
   }

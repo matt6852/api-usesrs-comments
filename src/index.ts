@@ -12,7 +12,9 @@ const jsonBodyMiddleware = bodyParser.json();
 app.use(jsonBodyMiddleware);
 
 const port = process.env.PORT || 5001;
-
+app.get("/", (req: Request, res: Response) => {
+  res.send("hello");
+});
 app.use("/products", productsRouter);
 app.use("/bloggers", bloggerRouter);
 app.use("/posts", postsRoute);

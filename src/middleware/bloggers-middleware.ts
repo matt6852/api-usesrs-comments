@@ -1,8 +1,8 @@
 import { Response, Request, NextFunction } from "express";
 
 type ErrorType = {
+  message: string;
   field: string;
-  error: string;
 };
 const regx =
   "^https://([a-zA-Z0-9_-]+\\.)+[a-zA-Z0-9_-]+(\\/[a-zA-Z0-9_-]+)*\\/?$";
@@ -15,25 +15,29 @@ export const isBloggerValid = (
   const errorsArray = [];
   if (!name) {
     const error: ErrorType = {
+      message: "string",
       field: "name",
-      error: " required",
     };
     errorsArray.push(error);
   }
   if (!youtubeUrl) {
     const error: ErrorType = {
       field: "youtubeUrl",
-      error: " required",
+      message: "string",
     };
     errorsArray.push(error);
   }
   if (!youtubeUrl.match(regx)) {
     const error: ErrorType = {
       field: "youtubeUrl",
-      error: `must match regx ${regx}`,
+      message: `string`,
     };
     errorsArray.push(error);
   }
+  // heroku login
+
+  // git push heroku master
+  // git commit -am "make it better"
   if (errorsArray.length) {
     res.status(400).send({ errorMessage: errorsArray });
   } else {

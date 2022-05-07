@@ -51,7 +51,7 @@ bloggerRouter
         youtubeUrl
       );
       if (isUpdated) {
-        return res.sendStatus(201);
+        return res.sendStatus(204);
       }
       return res.send(404);
     }

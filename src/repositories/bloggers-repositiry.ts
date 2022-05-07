@@ -45,12 +45,7 @@ export const bloggersRepository = {
   },
   async getSingleBlogger(id: number) {
     const singleBlogger = await bloggerCollection.findOne({ id });
-    const getOne = {
-      id: singleBlogger!.id,
-      name: singleBlogger!.name,
-      youtubeUrl: singleBlogger!.youtubeUrl,
-    };
-    return getOne;
+    return singleBlogger;
   },
   async updatedSingleBlogger(id: number, updatedOne: object) {
     const isUpdated = await bloggerCollection.updateOne(

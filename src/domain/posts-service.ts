@@ -16,6 +16,7 @@ export const postsService = {
     bloggerId: number
   ) {
     const exist = await bloggersRepository.getSingleBlogger(bloggerId);
+    console.log("here");
 
     if (exist) {
       const newPost = {

@@ -12,7 +12,18 @@ export const postsRepository = {
       filter.title = { $regex: title };
     }
     const allPosts = await postsCollection.find(filter).toArray();
-    return allPosts;
+    const redone = allPosts.map((post: any) => {
+      const newOne: any = {
+        name: post.title,
+        id: post.id,
+        shortDescription: post.shortDescription,
+        content: post.content,
+        bloggerId: post.bloggerId,
+        bloggerName: post.bloggerName,
+      };
+      return newOne;
+    });
+    return redone;
   },
   async createNewPost(newPost: any) {
     const done = await postsCollection.insertOne(newPost);
@@ -24,7 +35,16 @@ export const postsRepository = {
   },
   async getSinglePost(id: number) {
     const singlePost = await postsCollection.findOne({ id });
-    return singlePost;
+    if (!singlePost) return null;
+    const createdOne = {
+      name: singlePost.title,
+      id: singlePost.id,
+      shortDescription: singlePost.shortDescription,
+      content: singlePost.content,
+      bloggerId: singlePost.bloggerId,
+      bloggerName: singlePost.bloggerName,
+    };
+    return createdOne;
   },
   async updatedSinglePost(id: number, updatedOne: object) {
     const isUpdated = await postsCollection.updateOne(

@@ -34,6 +34,7 @@ export const bloggersRepository = {
   },
   async getSingleBlogger(id: number) {
     const singleBlogger = await bloggerCollection.findOne({ id });
+    delete singleBlogger?._id;
     return singleBlogger;
   },
   async updatedSingleBlogger(id: number, updatedOne: object) {

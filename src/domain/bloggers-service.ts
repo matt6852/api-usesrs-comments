@@ -16,6 +16,8 @@ export const bloggerService = {
     };
 
     const created = await bloggersRepository.createNewBBlogger(newBlogger);
+    console.log(created);
+
     return created;
   },
   async delete(id: number) {

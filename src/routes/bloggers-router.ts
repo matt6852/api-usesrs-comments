@@ -25,7 +25,7 @@ bloggerRouter
     const { name, youtubeUrl } = req.body;
     const isCreated = await bloggerService.createNewBlogger(name, youtubeUrl);
     if (isCreated) {
-      return res.sendStatus(201);
+      return res.status(201).send(isCreated);
     }
     return res.sendStatus(400);
   })

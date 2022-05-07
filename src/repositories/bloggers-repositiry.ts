@@ -26,7 +26,18 @@ export const bloggersRepository = {
   },
   async createNewBBlogger(newBlogger: newBlogger) {
     const done = await bloggerCollection.insertOne(newBlogger);
-    return done.acknowledged;
+    if (done.acknowledged) {
+      const Blogger = await bloggerCollection.findOne({
+        id: newBlogger.id,
+      });
+      const createdOne = {
+        id: Blogger!.id,
+        name: Blogger!.name,
+        youtubeUrl: Blogger!.youtubeUrl,
+      };
+      return createdOne;
+    }
+    return false;
   },
   async deleteBlogger(id: number) {
     const isDeleted = await bloggerCollection.deleteOne({ id });

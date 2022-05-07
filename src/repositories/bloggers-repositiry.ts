@@ -12,7 +12,7 @@ export const bloggersRepository = {
       filter.name = { $regex: name };
     }
     const allBloggers = await bloggerCollection.find(filter).toArray();
-    console.log(allBloggers);
+
     const redone = allBloggers.map((blogger: any) => {
       const newOne: any = {
         name: blogger.name,
@@ -45,7 +45,14 @@ export const bloggersRepository = {
   },
   async getSingleBlogger(id: number) {
     const singleBlogger = await bloggerCollection.findOne({ id });
-    return singleBlogger;
+    console.log(singleBlogger);
+    const createdOne = {
+      id: singleBlogger!.id,
+      name: singleBlogger!.name,
+      youtubeUrl: singleBlogger!.youtubeUrl,
+    };
+
+    return createdOne;
   },
   async updatedSingleBlogger(id: number, updatedOne: object) {
     const isUpdated = await bloggerCollection.updateOne(

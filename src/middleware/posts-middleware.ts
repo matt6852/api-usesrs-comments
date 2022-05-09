@@ -23,7 +23,7 @@ export const isCreatPostValid = (
   if (
     !shortDescription ||
     !shortDescription.trim() ||
-    shortDescription.trim().length > 1000
+    shortDescription.trim().length > 100
   ) {
     const error: ErrorType = {
       field: "shortDescription",
@@ -70,7 +70,7 @@ export const isUpdatedPostValid = (
   if (
     !shortDescription ||
     !shortDescription.trim() ||
-    shortDescription.trim().length > 1000
+    shortDescription.trim().length > 100
   ) {
     const error: ErrorType = {
       field: "shortDescription",

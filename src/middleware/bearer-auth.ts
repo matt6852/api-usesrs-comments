@@ -1,13 +1,15 @@
-export const basicAuth = (req: any, res: any, next: any) => {
+export const bearerAuth = (req: any, res: any, next: any) => {
   const { authorization } = req.headers;
+  console.log(authorization, "authorization");
+
   if (authorization) {
     const [login, password] = Buffer.from(authorization.split(" ")[1], "base64")
       .toString()
       .split(":");
-    // console.log("basic auth", authorization, login, password);
+    console.log("Bearer", authorization, login, password);
     if (login === "admin" && password === "qwerty") {
       return next();
     }
   }
-  return res.send(401);
+  return res.sendStatus(401);
 };

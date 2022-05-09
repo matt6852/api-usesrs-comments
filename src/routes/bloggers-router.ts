@@ -22,24 +22,18 @@ bloggerRouter
     }
     return res.sendStatus(404);
   })
-  .post(
-    "/",
-    basicAuth,
-    bearerAuth,
-    isBloggerValid,
-    async (req: Request, res: Response) => {
-      const { name, youtubeUrl } = req.body;
-      const isCreated = await bloggerService.createNewBlogger(name, youtubeUrl);
-      if (isCreated) {
-        return res.status(201).send(isCreated);
-      }
-      return res.sendStatus(400);
+  .post("/", basicAuth, isBloggerValid, async (req: Request, res: Response) => {
+    const { name, youtubeUrl } = req.body;
+    const isCreated = await bloggerService.createNewBlogger(name, youtubeUrl);
+    if (isCreated) {
+      return res.status(201).send(isCreated);
     }
-  )
+    return res.sendStatus(400);
+  })
   .delete(
     "/:id",
     basicAuth,
-    bearerAuth,
+
     isId,
     async (req: Request, res: Response) => {
       const { id } = req.params;
@@ -53,7 +47,6 @@ bloggerRouter
   .put(
     "/:id",
     basicAuth,
-    bearerAuth,
     isId,
     isBloggerValid,
     async (req: Request, res: Response) => {

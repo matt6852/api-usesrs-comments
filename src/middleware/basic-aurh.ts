@@ -1,6 +1,8 @@
 export const basicAuth = (req: any, res: any, next: any) => {
   const { authorization } = req.headers;
-  if (authorization) {
+  console.log(authorization);
+
+  if (authorization.startsWith("Basic")) {
     const [login, password] = Buffer.from(authorization.split(" ")[1], "base64")
       .toString()
       .split(":");
@@ -9,5 +11,5 @@ export const basicAuth = (req: any, res: any, next: any) => {
       return next();
     }
   }
-  return res.send(401);
+  return res.sendStatus(401);
 };

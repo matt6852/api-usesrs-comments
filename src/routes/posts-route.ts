@@ -59,9 +59,9 @@ postsRoute
   .put(
     "/:id",
     basicAuth,
+    isUpdatedPostValid,
     isIdValidPost,
     isBloggerIDValid,
-    isUpdatedPostValid,
     async (req: Request, res: Response) => {
       const { id } = req.params;
       if (!Number(+id)) {

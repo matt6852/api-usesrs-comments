@@ -76,7 +76,7 @@ postsRoute
         +bloggerId
       );
       if (updated) {
-        return res.sendStatus(201);
+        return res.sendStatus(204);
       }
       // return res.status(400).json({
       //   errorsMessages: [{ message: "string", field: "bloggerId" }],

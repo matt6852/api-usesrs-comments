@@ -52,8 +52,7 @@ export const postsRepository = {
   async updatedSinglePost(id: number, updatedOne: object) {
     const isUpdated = await postsCollection.findOneAndUpdate(
       { id },
-      { $set: { ...updatedOne } },
-      { upsert: true }
+      { $set: { ...updatedOne } }
     );
     return isUpdated.value;
   },

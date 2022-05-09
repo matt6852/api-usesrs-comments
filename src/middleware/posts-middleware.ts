@@ -12,21 +12,26 @@ export const isCreatPostValid = (
 ) => {
   const { title, shortDescription, content, bloggerId } = req.body;
   const errorsArray = [];
-  if (!title) {
+
+  if (!title || !title.trim() || title.trim().length > 30) {
     const error: ErrorType = {
       field: "title",
       message: "string",
     };
     errorsArray.push(error);
   }
-  if (!shortDescription) {
+  if (
+    !shortDescription ||
+    !shortDescription.trim() ||
+    shortDescription.trim().length > 1000
+  ) {
     const error: ErrorType = {
       field: "shortDescription",
       message: "string",
     };
     errorsArray.push(error);
   }
-  if (!content) {
+  if (!content || !content.trim() || content.trim().length > 1000) {
     const error: ErrorType = {
       field: "content",
       message: "string",
@@ -41,7 +46,7 @@ export const isCreatPostValid = (
     errorsArray.push(error);
   }
   if (errorsArray.length) {
-    res.status(400).send({ errorsMessages: errorsArray, resultCode: 1 });
+    return res.status(400).send({ errorsMessages: errorsArray, resultCode: 1 });
   } else {
     next();
   }

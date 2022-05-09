@@ -40,7 +40,7 @@ export const isBloggerValid = (
   // git push heroku master
   // git commit -am "make it better"
   if (errorsArray.length) {
-    res.status(400).send({ errorMessage: errorsArray, resultCode: 1 });
+    res.status(400).send({ errorMessages: errorsArray, resultCode: 1 });
   } else {
     next();
   }

@@ -60,6 +60,8 @@ postsRoute
     isUpdatedPostValid,
     async (req: Request, res: Response) => {
       const { id } = req.params;
+      if (!Number(+id)) {
+      }
       const { title, shortDescription, content } = req.body;
       const updated = await postsService.updatePost(
         +id,

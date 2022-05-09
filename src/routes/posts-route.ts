@@ -30,6 +30,7 @@ postsRoute
   .post(
     "/",
     basicAuth,
+    isUpdatedPostValid,
     isCreatPostValid,
     async (req: Request, res: Response) => {
       const { title, shortDescription, content, bloggerId } = req.body;

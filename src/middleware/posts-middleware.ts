@@ -54,14 +54,21 @@ export const isCreatPostValid = (
   }
 };
 
-export const isUpdatedPostValid = (
+export const isUpdatedPostValid = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const { title, shortDescription, content } = req.body;
+  const { title, shortDescription, content, bloggerId } = req.body;
   const errorsArray = [];
-
+  const singleBlogger = await bloggerService.singleBlogger(+bloggerId);
+  if (!singleBlogger?.name) {
+    const error: ErrorType = {
+      message: "string",
+      field: "bloggerId",
+    };
+    errorsArray.push(error);
+  }
   if (!title || !title.trim() || title.trim().length > 30) {
     const error: ErrorType = {
       message: "string",

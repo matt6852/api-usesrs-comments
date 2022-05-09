@@ -77,7 +77,7 @@ export const isUpdatedPostValid = (
     errorsArray.push(error);
   }
   if (errorsArray.length) {
-    res.status(400).send({ errorMessage: errorsArray });
+    res.status(400).send({ errorsMessages: errorsArray });
   } else {
     next();
   }

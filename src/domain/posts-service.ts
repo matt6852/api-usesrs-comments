@@ -42,12 +42,14 @@ export const postsService = {
     id: number,
     title: string,
     shortDescription: string,
-    content: string
+    content: string,
+    bloggerId: number
   ) {
     const updatedOne = {
       title,
       shortDescription,
       content,
+      bloggerId,
     };
 
     const isUpdated = await postsRepository.updatedSinglePost(id, updatedOne);

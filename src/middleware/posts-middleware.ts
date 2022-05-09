@@ -1,4 +1,5 @@
 import { Response, Request, NextFunction } from "express";
+import { bloggerService } from "../domain/bloggers-service";
 import { postsService } from "../domain/posts-service";
 
 type ErrorType = {
@@ -58,7 +59,7 @@ export const isUpdatedPostValid = (
   res: Response,
   next: NextFunction
 ) => {
-  const { title, shortDescription, content, id } = req.body;
+  const { title, shortDescription, content } = req.body;
   const errorsArray = [];
 
   if (!title || !title.trim() || title.trim().length > 30) {
@@ -101,10 +102,31 @@ export const isIdValidPost = async (
 ) => {
   const { id } = req.params;
   const singlePost = await postsService.singlePost(+id);
-  console.log(singlePost, "singlePost");
 
   if (!singlePost?.bloggerName) {
     return res.sendStatus(404);
+  }
+  next();
+};
+
+export const isBloggerIDValid = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { bloggerId } = req.body;
+  const singleBlogger = await bloggerService.singleBlogger(+bloggerId);
+
+  if (!singleBlogger?.name) {
+    return res.status(400).json({
+      errorsMessages: [
+        {
+          message: "Invalid 'bloggerId': such blogger doesn't exist",
+          field: "bloggerId",
+        },
+      ],
+      resultCode: 1,
+    });
   }
   next();
 };

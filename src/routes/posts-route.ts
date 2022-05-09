@@ -5,6 +5,7 @@ import { isBloggerValid } from "../middleware/bloggers-middleware";
 import { postsService } from "../domain/posts-service";
 import { send } from "process";
 import {
+  isBloggerIDValid,
   isCreatPostValid,
   isIdValidPost,
   isUpdatedPostValid,
@@ -59,17 +60,19 @@ postsRoute
     "/:id",
     basicAuth,
     isIdValidPost,
+    isBloggerIDValid,
     isUpdatedPostValid,
     async (req: Request, res: Response) => {
       const { id } = req.params;
       if (!Number(+id)) {
       }
-      const { title, shortDescription, content } = req.body;
+      const { title, shortDescription, content, bloggerId } = req.body;
       const updated = await postsService.updatePost(
         +id,
         title,
         shortDescription,
-        content
+        content,
+        +bloggerId
       );
       if (updated) {
         return res.sendStatus(201);

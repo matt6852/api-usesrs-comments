@@ -62,8 +62,8 @@ export const isUpdatedPostValid = (
 
   if (!title || !title.trim() || title.trim().length > 30) {
     const error: ErrorType = {
-      field: "title",
       message: "string",
+      field: "title",
     };
     errorsArray.push(error);
   }
@@ -73,15 +73,15 @@ export const isUpdatedPostValid = (
     shortDescription.trim().length > 100
   ) {
     const error: ErrorType = {
-      field: "shortDescription",
       message: "string",
+      field: "shortDescription",
     };
     errorsArray.push(error);
   }
   if (!content || !content.trim() || content.trim().length > 1000) {
     const error: ErrorType = {
-      field: "content",
       message: "string",
+      field: "content",
     };
     errorsArray.push(error);
   }

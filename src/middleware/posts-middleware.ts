@@ -41,7 +41,7 @@ export const isCreatPostValid = (
     errorsArray.push(error);
   }
   if (errorsArray.length) {
-    res.status(400).send({ errorMessages: errorsArray, resultCode: 1 });
+    res.status(400).send({ errorsMessages: errorsArray, resultCode: 1 });
   } else {
     next();
   }

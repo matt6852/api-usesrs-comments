@@ -21,8 +21,8 @@ postsRoute
     res.send(allPosts);
   })
   .get("/:id", async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const singlePost = await postsService.singlePost(+id);
+    const id = parseInt(req.params.id);
+    const singlePost = await postsService.singlePost(id);
     if (singlePost) {
       return res.send(singlePost);
     } else return res.sendStatus(404);
@@ -50,8 +50,8 @@ postsRoute
     }
   )
   .delete("/:id", basicAuth, async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const isDeleted = await postsService.delete(+id);
+    const id = parseInt(req.params.id);
+    const isDeleted = await postsService.delete(id);
     if (isDeleted) {
       return res.sendStatus(204);
     }
@@ -64,16 +64,15 @@ postsRoute
     isIdValidPost,
     isBloggerIDValid,
     async (req: Request, res: Response) => {
-      const { id } = req.params;
-      if (!Number(+id)) {
-      }
+      const id = parseInt(req.params.id);
+
       const { title, shortDescription, content, bloggerId } = req.body;
       const updated = await postsService.updatePost(
-        +id,
+        id,
         title,
         shortDescription,
         content,
-        +bloggerId
+        bloggerId
       );
       if (updated) {
         return res.sendStatus(204);

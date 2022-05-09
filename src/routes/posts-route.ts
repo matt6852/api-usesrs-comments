@@ -70,7 +70,10 @@ postsRoute
       if (updated) {
         return res.sendStatus(201);
       }
-      return res.sendStatus(404);
+      return res.status(400).json({
+        errorsMessages: [{ message: "string", field: "bloggerId" }],
+        resultCode: 1,
+      });
     }
   );
 

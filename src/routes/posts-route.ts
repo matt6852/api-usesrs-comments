@@ -6,6 +6,7 @@ import { postsService } from "../domain/posts-service";
 import { send } from "process";
 import {
   isCreatPostValid,
+  isIdValidPost,
   isUpdatedPostValid,
 } from "../middleware/posts-middleware";
 import { basicAuth } from "../middleware/basic-aurh";
@@ -57,6 +58,7 @@ postsRoute
   .put(
     "/:id",
     basicAuth,
+    isIdValidPost,
     isUpdatedPostValid,
     async (req: Request, res: Response) => {
       const { id } = req.params;
@@ -72,10 +74,10 @@ postsRoute
       if (updated) {
         return res.sendStatus(201);
       }
-      return res.status(400).json({
-        errorsMessages: [{ message: "string", field: "bloggerId" }],
-        resultCode: 1,
-      });
+      // return res.status(400).json({
+      //   errorsMessages: [{ message: "string", field: "bloggerId" }],
+      //   resultCode: 1,
+      // });
     }
   );
 

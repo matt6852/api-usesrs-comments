@@ -35,9 +35,10 @@ export const postsRepository = {
   },
   async getSinglePost(id: number) {
     const singlePost = await postsCollection.findOne({ id });
+
     if (!singlePost) return null;
     const createdOne = {
-      name: singlePost.title,
+      title: singlePost.title,
       id: singlePost.id,
       shortDescription: singlePost.shortDescription,
       content: singlePost.content,

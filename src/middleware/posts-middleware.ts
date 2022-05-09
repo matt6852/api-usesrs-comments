@@ -1,4 +1,5 @@
 import { Response, Request, NextFunction } from "express";
+import { postsService } from "../domain/posts-service";
 
 type ErrorType = {
   field: string;
@@ -57,7 +58,7 @@ export const isUpdatedPostValid = (
   res: Response,
   next: NextFunction
 ) => {
-  const { title, shortDescription, content } = req.body;
+  const { title, shortDescription, content, id } = req.body;
   const errorsArray = [];
 
   if (!title || !title.trim() || title.trim().length > 30) {
@@ -85,9 +86,25 @@ export const isUpdatedPostValid = (
     };
     errorsArray.push(error);
   }
+
   if (errorsArray.length) {
     res.status(400).send({ errorsMessages: errorsArray, resultCode: 1 });
   } else {
     next();
   }
+};
+
+export const isIdValidPost = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
+  const singlePost = await postsService.singlePost(+id);
+  console.log(singlePost, "singlePost");
+
+  if (!singlePost?.bloggerName) {
+    return res.sendStatus(404);
+  }
+  next();
 };

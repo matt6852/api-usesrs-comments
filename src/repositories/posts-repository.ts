@@ -15,6 +15,7 @@ export const postsRepository = {
     const redone = allPosts.map((post: any) => {
       const newOne: any = {
         id: post.id,
+        title: post.title,
         shortDescription: post.shortDescription,
         content: post.content,
         bloggerId: post.bloggerId,

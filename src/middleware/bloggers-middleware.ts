@@ -13,14 +13,14 @@ export const isBloggerValid = (
 ) => {
   const { name, youtubeUrl } = req.body;
   const errorsArray = [];
-  if (!name) {
+  if (!name || name.length > 15) {
     const error: ErrorType = {
       message: "string",
       field: "name",
     };
     errorsArray.push(error);
   }
-  if (!youtubeUrl) {
+  if (!youtubeUrl || youtubeUrl.length > 100) {
     const error: ErrorType = {
       field: "youtubeUrl",
       message: "string",

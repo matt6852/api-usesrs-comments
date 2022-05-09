@@ -55,21 +55,21 @@ export const isUpdatedPostValid = (
   const { title, shortDescription, content } = req.body;
   const errorsArray = [];
 
-  if (!title) {
+  if (!title || title.length > 30) {
     const error: ErrorType = {
       field: "title",
       message: "string",
     };
     errorsArray.push(error);
   }
-  if (!shortDescription) {
+  if (!shortDescription || shortDescription.length > 1000) {
     const error: ErrorType = {
       field: "shortDescription",
       message: "string",
     };
     errorsArray.push(error);
   }
-  if (!content) {
+  if (!content || content.length > 1000) {
     const error: ErrorType = {
       field: "content",
       message: "string",

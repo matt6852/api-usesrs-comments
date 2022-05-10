@@ -1,38 +1,24 @@
-import { bloggersRepository } from "../repositories/bloggers-repositiry";
+import { bloggersRepository } from "../repositories/bloggers-repository";
 
-export const bloggerService = {
-  async getAllBloggers(name: any) {
-    return await bloggersRepository.getAllBloggers(name);
+export const bloggersService = {
+  async getBloggers() {
+    return await bloggersRepository.getBloggers();
   },
-  async singleBlogger(id: number) {
-    const singleBlogger = await bloggersRepository.getSingleBlogger(id);
-    return singleBlogger;
+  async getBloggersById(id: number) {
+    return await bloggersRepository.getBloggersById(id);
   },
-  async createNewBlogger(name: string, youtubeUrl: string) {
+  async deleteBloggerById(id: number) {
+    return await bloggersRepository.deleteBloggerById(id);
+  },
+  async updateBloggerById(id: number, name: string, youtubeUrl: string) {
+    return await bloggersRepository.updateBloggerById(id, name, youtubeUrl);
+  },
+  async createBlogger(name: string, youtubeUrl: string) {
     const newBlogger = {
       id: +new Date(),
-      name,
-      youtubeUrl,
+      name: name,
+      youtubeUrl: youtubeUrl,
     };
-
-    const created = await bloggersRepository.createNewBBlogger(newBlogger);
-    console.log(created);
-
-    return created;
-  },
-  async delete(id: number) {
-    const isDeleted = await bloggersRepository.deleteBlogger(id);
-    return isDeleted;
-  },
-  async updateBlogger(id: number, name: string, youtubeUrl: string) {
-    const updatedOne = {
-      name,
-      youtubeUrl,
-    };
-    const isUpdated = await bloggersRepository.updatedSingleBlogger(
-      id,
-      updatedOne
-    );
-    return isUpdated;
+    return await bloggersRepository.createBlogger(newBlogger);
   },
 };

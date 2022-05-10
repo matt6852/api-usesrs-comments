@@ -1,67 +1,76 @@
-import { isId } from "./../middleware/bloggers-middleware";
-import { Request, Response, Router } from "express";
-import { bloggerService } from "../domain/bloggers-service";
-import { isBloggerValid } from "../middleware/bloggers-middleware";
-import { basicAuth } from "../middleware/basic-aurh";
-import { bearerAuth } from "../middleware/bearer-auth";
+import {Request, Response, Router} from "express";
+import {bloggersService} from "../domain/bloggers-service";
+import {inputValidator, isValidBlog, isValidId} from "../middlewares/input-validator-middlewares";
+import {checkAuth} from "../middlewares/auth-middleware";
 
-const bloggerRouter = Router({});
+const reg = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/
 
-bloggerRouter
-  .get("/", async (req: Request, res: Response) => {
-    const { name } = req.query;
-    const allBloggers = await bloggerService.getAllBloggers(name);
-    res.send(allBloggers);
-  })
-  .get("/:id", async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const singleBlogger = await bloggerService.singleBlogger(+id);
+export const bloggersRouter = Router({})
 
-    if (singleBlogger) {
-      return res.send(singleBlogger);
-    }
-    return res.sendStatus(404);
-  })
-  .post("/", basicAuth, isBloggerValid, async (req: Request, res: Response) => {
-    const { name, youtubeUrl } = req.body;
-    const isCreated = await bloggerService.createNewBlogger(name, youtubeUrl);
-    if (isCreated) {
-      return res.status(201).send(isCreated);
-    }
-    return res.sendStatus(400);
-  })
-  .delete(
-    "/:id",
-    basicAuth,
-
-    isId,
+bloggersRouter.get('/',
     async (req: Request, res: Response) => {
-      const { id } = req.params;
-      const isDeleted = await bloggerService.delete(+id);
-      if (isDeleted) {
-        return res.sendStatus(204);
-      }
-      return res.sendStatus(404);
-    }
-  )
-  .put(
-    "/:id",
-    basicAuth,
-    isId,
-    isBloggerValid,
-    async (req: Request, res: Response) => {
-      const { id } = req.params;
-      const { name, youtubeUrl } = req.body;
-      const isUpdated = await bloggerService.updateBlogger(
-        +id,
-        name,
-        youtubeUrl
-      );
-      if (isUpdated) {
-        return res.sendStatus(204);
-      }
-      return res.sendStatus(404);
-    }
-  );
+        const bloggers = await bloggersService.getBloggers()
+        res.status(200).send(bloggers)
+    })
 
-export default bloggerRouter;
+bloggersRouter.get('/:id',
+        isValidId,
+        inputValidator,
+        async (req: Request, res: Response) => {
+        const id = +req.params.id
+            const blogger = await bloggersService.getBloggersById(id)
+            if (blogger) {
+                res.status(200).send(blogger)
+            } else {
+                res.sendStatus(404)
+            }
+        })
+
+bloggersRouter.put('/:id',
+        checkAuth,
+        isValidBlog,
+        inputValidator,
+        async (req: Request, res: Response) => {
+        const id = +req.params.id
+            const updBlogger = await bloggersService.updateBloggerById(
+                id,
+                req.body.name,
+                req.body.youtubeUrl
+            )
+            if (updBlogger) {
+                res.status(204).send(updBlogger)
+            } else {
+                res.sendStatus(404)
+            }
+        })
+
+bloggersRouter.post('/',
+        checkAuth,
+        isValidBlog,
+        inputValidator,
+        async (req: Request, res: Response) => {
+            const newBlogger = await bloggersService.createBlogger(
+                req.body.name,
+                req.body.youtubeUrl
+            )
+            if (newBlogger) {
+                res.status(201).send(newBlogger)
+            } else {
+                res.sendStatus(400)
+
+            }
+        })
+
+bloggersRouter.delete('/:id',
+        checkAuth,
+        isValidId,
+        inputValidator,
+        async (req: Request, res: Response) => {
+            const id = +req.params.id
+            const isDeleted = await bloggersService.deleteBloggerById(id)
+            if (isDeleted) {
+                res.sendStatus(204)
+            } else {
+                res.sendStatus(404)
+            }
+        })

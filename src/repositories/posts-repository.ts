@@ -1,51 +1,40 @@
-import { postsCollection } from "./db";
+import {postsCollection, PostsCon} from "./db";
 
-type newBlogger = {
-  name: string;
-  youtubeUrl: string;
-  id: number;
-};
 export const postsRepository = {
-  async getAllPosts(title: any) {
-    const filter: any = {};
 
-    const allPosts = await postsCollection
-      .find({}, { projection: { _id: 0 } })
-      .toArray();
-    return allPosts;
-  },
-  async createNewPost(newPost: any) {
-    const done = await postsCollection.insertOne(newPost, {
-      forceServerObjectId: true,
-    });
-    return done.acknowledged;
-  },
-  async deleteBlogger(id: number) {
-    const isDeleted = await postsCollection.deleteOne({ id });
-    return isDeleted.deletedCount >= 1;
-  },
-  async getSinglePost(id: number) {
-    const singlePost = await postsCollection.findOne(
-      { id },
-      { projection: { _id: 0 } }
-    );
+    async getPosts() {
+        const allPosts = await postsCollection.find({},{projection: {_id:0}}).toArray()
+        return allPosts
+    },
+    async getPostsById(id: number) {
+        const postsById = await postsCollection.findOne({id}, {projection: {_id:0}})
+            if(postsById) {
+                return {
+                    bloggerId: postsById.bloggerId,
+                    bloggerName: postsById.bloggerName,
+                    content: postsById.content,
+                    id,
+                    shortDescription: postsById.shortDescription,
+                    title: postsById.title
+                }
+            } else {
+                return false
+            }
 
-    if (!singlePost) return null;
-    const createdOne = {
-      title: singlePost.title,
-      id: id,
-      shortDescription: singlePost.shortDescription,
-      content: singlePost.content,
-      bloggerId: singlePost.bloggerId,
-      bloggerName: singlePost.bloggerName,
-    };
-    return createdOne;
-  },
-  async updatedSinglePost(id: number, updatedOne: object) {
-    const isUpdated = await postsCollection.findOneAndUpdate(
-      { id },
-      { $set: { ...updatedOne } }
-    );
-    return isUpdated.value;
-  },
-};
+    },
+        async createPosts(createPost: PostsCon) {
+            await postsCollection.insertOne(createPost, {forceServerObjectId: true})
+            return createPost
+        },
+
+    async updatePostsById(updatePost: PostsCon) {
+        const id = updatePost.id
+        const updPosts = await postsCollection.findOneAndUpdate({id}, {$set: {...updatePost}}, {upsert:true})
+        return updPosts.value
+    },
+
+    async deletePostById(id: number) {
+        const result = await postsCollection.deleteOne({id})
+        return result.deletedCount === 1
+    }
+}

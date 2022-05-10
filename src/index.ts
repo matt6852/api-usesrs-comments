@@ -1,26 +1,24 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import { runDb } from "./repositories/db";
-import { productsRouter } from "./routes/products-router";
-import bloggerRouter from "./routes/bloggers-router";
-import postsRoute from "./routes/posts-route";
+import { bloggersRouter } from "./routes/bloggers-router";
+import { postsRouter } from "./routes/content-router";
 
-// create express app
 const app = express();
 
-const jsonBodyMiddleware = bodyParser.json();
-app.use(jsonBodyMiddleware);
-
 const port = process.env.PORT || 5001;
-app.get("/", (req: Request, res: Response) => {
-  res.send("hello");
-});
-app.use("/products", productsRouter);
-app.use("/bloggers", bloggerRouter);
-app.use("/posts", postsRoute);
+app.use(cors());
+app.use(bodyParser.json());
 
+app.use("/posts", postsRouter);
+app.use("/bloggers", bloggersRouter);
+
+app.get("/", (req, res) => {
+  res.send("hello world!");
+});
 const startApp = async () => {
-  const db = await runDb();
+  await runDb();
   app.listen(port, () => {
     console.log(`Example app listening on port: ${port}`);
   });

@@ -3,7 +3,7 @@ import { Request, Response, Router } from "express";
 import { bloggerService } from "../domain/bloggers-service";
 import { isBloggerValid } from "../middleware/bloggers-middleware";
 import { postsService } from "../domain/posts-service";
-import { send } from "process";
+
 import {
   isBloggerIDValid,
   isCreatPostValid,

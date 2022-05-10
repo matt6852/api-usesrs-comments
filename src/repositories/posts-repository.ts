@@ -12,17 +12,6 @@ export const postsRepository = {
     const allPosts = await postsCollection
       .find({}, { projection: { _id: 0 } })
       .toArray();
-    // const redone = allPosts.map((post: any) => {
-    //   const newOne: any = {
-    //     id: post.id,
-    //     title: post.title,
-    //     shortDescription: post.shortDescription,
-    //     content: post.content,
-    //     bloggerId: post.bloggerId,
-    //     bloggerName: post.bloggerName,
-    //   };
-    //   return newOne;
-    // });
     return allPosts;
   },
   async createNewPost(newPost: any) {
@@ -36,12 +25,15 @@ export const postsRepository = {
     return isDeleted.deletedCount >= 1;
   },
   async getSinglePost(id: number) {
-    const singlePost = await postsCollection.findOne({ id });
+    const singlePost = await postsCollection.findOne(
+      { id },
+      { projection: { _id: 0 } }
+    );
 
     if (!singlePost) return null;
     const createdOne = {
       title: singlePost.title,
-      id: singlePost.id,
+      id: id,
       shortDescription: singlePost.shortDescription,
       content: singlePost.content,
       bloggerId: singlePost.bloggerId,

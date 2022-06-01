@@ -18,8 +18,7 @@ export const bloggersRepository = {
       .limit(+PageSize!)
       .toArray();
     const totalCount = await bloggersCollection.countDocuments(searchQuery);
-    // console.log(searchQuery);
-    // console.log(totalCount, "totalCount");
+
     const result = {
       pagesCount: Math.ceil(+totalCount / PageSize!),
       page: PageNumber,
@@ -48,7 +47,6 @@ export const bloggersRepository = {
     PageSize: number | undefined | null = 10
   ) {
     const bloggerById = await bloggersCollection.findOne({ id });
-    console.log(PageSize, "PageSize");
 
     if (bloggerById) {
       const totalCount = await postsCollection.countDocuments({
@@ -59,7 +57,6 @@ export const bloggersRepository = {
         .skip(+PageSize! * (+PageNumber! - 1))
         .limit(+PageSize!)
         .toArray();
-      //   console.log(bloggerPostsById, "bloggerPostsById");
 
       return {
         pagesCount: Math.ceil(+totalCount / PageSize!),

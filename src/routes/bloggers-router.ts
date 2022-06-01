@@ -47,8 +47,6 @@ bloggersRouter.get(
   inputValidator,
   async (req: Request, res: Response) => {
     const { PageNumber = 1, PageSize = 10 } = req.query;
-    // res.send("Blogger posts");
-    console.log(PageSize, "PageSize from router");
 
     const id = +req.params.id;
     const bloggerPosts = await bloggersService.getBloggersPostsById(
@@ -56,7 +54,6 @@ bloggersRouter.get(
       +PageNumber!,
       +PageSize!
     );
-    // console.log(bloggerPosts);
 
     if (bloggerPosts) {
       res.status(200).send(bloggerPosts);
@@ -123,16 +120,6 @@ bloggersRouter.post(
     } else {
       res.sendStatus(404);
     }
-
-    // const newBlogger = await bloggersService.createBlogger(
-    //   req.body.name,
-    //   req.body.youtubeUrl
-    // );
-    // if (newBlogger) {
-    //   res.status(201).send(newBlogger);
-    // } else {
-    //   res.sendStatus(400);
-    // }
   }
 );
 

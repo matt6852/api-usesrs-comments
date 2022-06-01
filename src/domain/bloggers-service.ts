@@ -6,8 +6,6 @@ export const bloggersService = {
     PageNumber: number | undefined | null,
     PageSize: number | undefined | null
   ) {
-    // console.log(SearchNameTerm);
-
     return await bloggersRepository.getBloggers(
       SearchNameTerm,
       PageNumber,
@@ -22,8 +20,6 @@ export const bloggersService = {
     PageNumber: number | undefined | null,
     PageSize: number | undefined | null
   ) {
-    console.log(PageSize, "form service");
-
     return await bloggersRepository.getBloggersPostsById(
       id,
       PageNumber,
@@ -38,7 +34,7 @@ export const bloggersService = {
   },
   async createBlogger(name: string, youtubeUrl: string) {
     const newBlogger = {
-      id: +new Date(),
+      id: +new Date().toISOString(),
       name: name,
       youtubeUrl: youtubeUrl,
     };

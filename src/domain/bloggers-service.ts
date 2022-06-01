@@ -22,7 +22,13 @@ export const bloggersService = {
     PageNumber: number | undefined | null,
     PageSize: number | undefined | null
   ) {
-    return await bloggersRepository.getBloggersPostsById(id);
+    console.log(PageSize, "form service");
+
+    return await bloggersRepository.getBloggersPostsById(
+      id,
+      PageNumber,
+      PageSize
+    );
   },
   async deleteBloggerById(id: number) {
     return await bloggersRepository.deleteBloggerById(id);

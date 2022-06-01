@@ -48,13 +48,15 @@ bloggersRouter.get(
   async (req: Request, res: Response) => {
     const { PageNumber = 1, PageSize = 10 } = req.query;
     // res.send("Blogger posts");
+    console.log(PageSize, "PageSize from router");
+
     const id = +req.params.id;
     const bloggerPosts = await bloggersService.getBloggersPostsById(
       id,
       +PageNumber!,
       +PageSize!
     );
-    console.log(bloggerPosts);
+    // console.log(bloggerPosts);
 
     if (bloggerPosts) {
       res.status(200).send(bloggerPosts);

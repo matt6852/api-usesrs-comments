@@ -14,7 +14,7 @@ export const bloggersRouter = Router({});
 
 bloggersRouter.get("/", async (req: Request, res: Response) => {
   const { SearchNameTerm, PageNumber = 1, PageSize = 10 } = req.query;
-  console.log(SearchNameTerm);
+  //   console.log(SearchNameTerm);
 
   const bloggers = await bloggersService.getBloggers(
     SearchNameTerm,

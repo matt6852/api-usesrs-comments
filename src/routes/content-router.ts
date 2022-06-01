@@ -44,13 +44,13 @@ postsRouter.get('/:id',
         inputValidator,
         async (req: Request, res: Response) => {
             const id = parseInt(req.params.id)
-            console.log('айдишка поста ', id)
+            
             if(!id) {
                 res.sendStatus(404)
                 return
             }
             const post = await postsService.getPostsById(id)
-            console.log(" пост по айдишке ", post)
+           
             if (!post) {
                 res.sendStatus(404)
             } else {

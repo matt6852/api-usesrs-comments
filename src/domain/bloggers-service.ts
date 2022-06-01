@@ -1,8 +1,8 @@
 import { bloggersRepository } from "../repositories/bloggers-repository";
 
 export const bloggersService = {
-  async getBloggers() {
-    return await bloggersRepository.getBloggers();
+  async getBloggers(search: any) {
+    return await bloggersRepository.getBloggers(search);
   },
   async getBloggersById(id: number) {
     return await bloggersRepository.getBloggersById(id);

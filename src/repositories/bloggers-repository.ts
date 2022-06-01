@@ -55,7 +55,7 @@ export const bloggersRepository = {
         bloggerId: id,
       });
       const bloggerPostsById = await postsCollection
-        .find({ bloggerId: id })
+        .find({ bloggerId: id }, { projection: { _id: 0 } })
         .skip(+PageSize! * (+PageNumber! - 1))
         .limit(+PageSize!)
         .toArray();

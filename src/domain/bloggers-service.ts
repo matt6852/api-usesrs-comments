@@ -34,7 +34,7 @@ export const bloggersService = {
   },
   async createBlogger(name: string, youtubeUrl: string) {
     const newBlogger = {
-      id: +new Date().toISOString(),
+      id: +new Date(),
       name: name,
       youtubeUrl: youtubeUrl,
     };

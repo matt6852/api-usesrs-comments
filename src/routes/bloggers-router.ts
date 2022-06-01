@@ -13,7 +13,7 @@ const reg = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/;
 export const bloggersRouter = Router({});
 
 bloggersRouter.get("/", async (req: Request, res: Response) => {
-  const { search, PageNumber, PageSize } = req.query;
+  const { search, PageNumber = 1, PageSize = 10 } = req.query;
   //   console.log(search);
 
   const bloggers = await bloggersService.getBloggers(

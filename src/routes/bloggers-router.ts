@@ -5,8 +5,10 @@ import {
   inputValidator,
   isValidBlog,
   isValidId,
+  isValidPost,
 } from "../middlewares/input-validator-middlewares";
 import { checkAuth } from "../middlewares/auth-middleware";
+import { postsService } from "../domain/posts-service";
 
 const reg = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/;
 
@@ -96,6 +98,38 @@ bloggersRouter.post(
     } else {
       res.sendStatus(400);
     }
+  }
+);
+bloggersRouter.post(
+  "/:id/posts",
+  checkAuth,
+  isValidPost,
+  inputValidator,
+  async (req: Request, res: Response) => {
+    const id = +req.params.id;
+    const blogger = await bloggersService.getBloggersById(id);
+    if (blogger) {
+      const { title, content, shortDescription } = req.body;
+      const newPost = await postsService.createPosts({
+        title,
+        content,
+        bloggerId: id,
+        shortDescription,
+      });
+      res.status(201).send(newPost);
+    } else {
+      res.sendStatus(404);
+    }
+
+    // const newBlogger = await bloggersService.createBlogger(
+    //   req.body.name,
+    //   req.body.youtubeUrl
+    // );
+    // if (newBlogger) {
+    //   res.status(201).send(newBlogger);
+    // } else {
+    //   res.sendStatus(400);
+    // }
   }
 );
 

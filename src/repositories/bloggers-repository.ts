@@ -1,5 +1,5 @@
 import { count } from "console";
-import { Bloggers, bloggersCollection } from "./db";
+import { Bloggers, bloggersCollection, postsCollection } from "./db";
 
 export const bloggersRepository = {
   async getBloggers(
@@ -37,6 +37,36 @@ export const bloggersRepository = {
         id: bloggerById.id,
         name: bloggerById.name,
         youtubeUrl: bloggerById.youtubeUrl,
+      };
+    } else {
+      return false;
+    }
+  },
+  async getBloggersPostsById(
+    id: number,
+    PageNumber: number | undefined | null = 1,
+    PageSize: number | undefined | null = 10
+  ) {
+    const bloggerById = await bloggersCollection.findOne({ id });
+    console.log(bloggerById);
+
+    if (bloggerById) {
+      const totalCount = await postsCollection.countDocuments({
+        bloggerId: id,
+      });
+      const bloggerPostsById = await postsCollection
+        .find({ bloggerId: id })
+        .skip(+PageSize! * (+PageNumber! - 1))
+        .limit(+PageSize!)
+        .toArray();
+      console.log(bloggerPostsById, "bloggerPostsById");
+
+      return {
+        pagesCount: Math.ceil(+totalCount / PageSize!),
+        page: PageNumber,
+        pageSize: PageSize,
+        totalCount,
+        items: bloggerPostsById,
       };
     } else {
       return false;

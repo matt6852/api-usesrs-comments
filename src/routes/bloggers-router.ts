@@ -38,6 +38,28 @@ bloggersRouter.get(
     }
   }
 );
+bloggersRouter.get(
+  "/:id/posts",
+  isValidId,
+  inputValidator,
+  async (req: Request, res: Response) => {
+    const { PageNumber = 1, PageSize = 10 } = req.query;
+    // res.send("Blogger posts");
+    const id = +req.params.id;
+    const bloggerPosts = await bloggersService.getBloggersPostsById(
+      id,
+      +PageNumber!,
+      +PageSize!
+    );
+    console.log(bloggerPosts);
+
+    if (bloggerPosts) {
+      res.status(200).send(bloggerPosts);
+    } else {
+      res.sendStatus(404);
+    }
+  }
+);
 
 bloggersRouter.put(
   "/:id",

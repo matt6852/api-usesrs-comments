@@ -17,6 +17,13 @@ export const bloggersService = {
   async getBloggersById(id: number) {
     return await bloggersRepository.getBloggersById(id);
   },
+  async getBloggersPostsById(
+    id: number,
+    PageNumber: number | undefined | null,
+    PageSize: number | undefined | null
+  ) {
+    return await bloggersRepository.getBloggersPostsById(id);
+  },
   async deleteBloggerById(id: number) {
     return await bloggersRepository.deleteBloggerById(id);
   },

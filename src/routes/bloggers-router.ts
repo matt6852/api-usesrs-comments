@@ -18,8 +18,8 @@ bloggersRouter.get("/", async (req: Request, res: Response) => {
 
   const bloggers = await bloggersService.getBloggers(
     search,
-    PageNumber,
-    PageSize
+    +PageNumber!,
+    +PageSize!
   );
   res.status(200).send(bloggers);
 });

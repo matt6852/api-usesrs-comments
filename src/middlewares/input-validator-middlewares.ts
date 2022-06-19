@@ -16,7 +16,7 @@ export const inputValidator = (
         field: e.param,
       };
     });
-    res.status(400).json({ errorsMessages: err, resultCode: 1 });
+    res.status(400).json({ errorsMessages: err });
   } else {
     next();
   }

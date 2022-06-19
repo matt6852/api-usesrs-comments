@@ -31,7 +31,6 @@ postsRouter.post(
     if (!blogger) {
       res.status(400).send({
         errorsMessages: [{ message: "invalid", field: "bloggerId" }],
-        resultCode: 1,
       });
       return;
     } else {
@@ -93,7 +92,6 @@ postsRouter.put(
     if (!bloggerUpd) {
       res.status(400).send({
         errorsMessages: [{ message: "invalid", field: "bloggerId" }],
-        resultCode: 1,
       });
       return;
     }

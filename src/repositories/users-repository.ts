@@ -1,5 +1,6 @@
 import { UserCreated } from "../domain/users-service";
 import { usersCollection } from "./db";
+import bcrypt from "bcrypt";
 
 export const usersRepository = {
   async createUser(createPost: UserCreated) {
@@ -14,7 +15,7 @@ export const usersRepository = {
     PageSize: number | undefined | null = 10
   ) {
     const users = await usersCollection
-      .find({}, { projection: { _id: 0, password: 0 } })
+      .find({}, { projection: { _id: 0, password: 0, createdAt: 0 } })
       .skip(+PageSize! * (+PageNumber! - 1))
       .limit(+PageSize!)
       .toArray();
@@ -29,7 +30,22 @@ export const usersRepository = {
     return result;
   },
   async deleteUserById(id: string) {
-    const delBlog = await usersCollection.deleteOne({ id });
-    return delBlog.deletedCount === 1;
+    const delUser = await usersCollection.deleteOne({ id });
+    return delUser.deletedCount === 1;
+  },
+  async findUser(user: any) {
+    const found = await usersCollection.findOne({
+      $or: [{ login: user.login }],
+    });
+    if (found) {
+      console.log(user, "User");
+      const result = await bcrypt.compare(user.password, found.password);
+      console.log(result, "result");
+      if (result) {
+        return found;
+      }
+    }
+
+    return { err: "not found" };
   },
 };

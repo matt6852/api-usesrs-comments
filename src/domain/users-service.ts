@@ -19,6 +19,7 @@ export const userService = {
       id: uuidv4(),
       login: user.login,
       password: passwordHash,
+      createdAt: new Date(),
     };
     const createdUser = await usersRepository.createUser(newUser);
     return createdUser;
@@ -31,5 +32,8 @@ export const userService = {
   },
   async deleteUserById(id: string) {
     return await usersRepository.deleteUserById(id);
+  },
+  async findUser(user: User) {
+    return await usersRepository.findUser(user);
   },
 };

@@ -1,4 +1,5 @@
 import { bloggersRepository } from "../repositories/bloggers-repository";
+import { v4 as uuidv4 } from "uuid";
 
 export const bloggersService = {
   async getBloggers(
@@ -12,11 +13,11 @@ export const bloggersService = {
       PageSize
     );
   },
-  async getBloggersById(id: number) {
+  async getBloggersById(id: string) {
     return await bloggersRepository.getBloggersById(id);
   },
   async getBloggersPostsById(
-    id: number,
+    id: string,
     PageNumber: number | undefined | null,
     PageSize: number | undefined | null
   ) {
@@ -26,15 +27,15 @@ export const bloggersService = {
       PageSize
     );
   },
-  async deleteBloggerById(id: number) {
+  async deleteBloggerById(id: string) {
     return await bloggersRepository.deleteBloggerById(id);
   },
-  async updateBloggerById(id: number, name: string, youtubeUrl: string) {
+  async updateBloggerById(id: string, name: string, youtubeUrl: string) {
     return await bloggersRepository.updateBloggerById(id, name, youtubeUrl);
   },
   async createBlogger(name: string, youtubeUrl: string) {
     const newBlogger = {
-      id: +new Date(),
+      id: uuidv4(),
       name: name,
       youtubeUrl: youtubeUrl,
     };

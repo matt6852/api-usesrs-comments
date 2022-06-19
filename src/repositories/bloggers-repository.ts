@@ -18,7 +18,6 @@ export const bloggersRepository = {
       .limit(+PageSize!)
       .toArray();
     const totalCount = await bloggersCollection.countDocuments(searchQuery);
-
     const result = {
       pagesCount: Math.ceil(+totalCount / PageSize!),
       page: PageNumber,
@@ -29,7 +28,9 @@ export const bloggersRepository = {
 
     return result;
   },
-  async getBloggersById(id: number) {
+  async getBloggersById(id: string) {
+    console.log(id, "id");
+
     const bloggerById = await bloggersCollection.findOne({ id });
     if (bloggerById) {
       return {
@@ -42,7 +43,7 @@ export const bloggersRepository = {
     }
   },
   async getBloggersPostsById(
-    id: number,
+    id: string,
     PageNumber: number | undefined | null = 1,
     PageSize: number | undefined | null = 10
   ) {
@@ -69,11 +70,11 @@ export const bloggersRepository = {
       return false;
     }
   },
-  async deleteBloggerById(id: number) {
+  async deleteBloggerById(id: string) {
     const delBlog = await bloggersCollection.deleteOne({ id });
     return delBlog.deletedCount === 1;
   },
-  async updateBloggerById(id: number, name: string, youtubeUrl: string) {
+  async updateBloggerById(id: string, name: string, youtubeUrl: string) {
     const updBlog = await bloggersCollection.findOneAndUpdate(
       { id },
       {

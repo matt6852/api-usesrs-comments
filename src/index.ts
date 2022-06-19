@@ -1,3 +1,5 @@
+import { usersRouter } from "./routes/users-router";
+import { authUserRouter } from "./routes/auth-router";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -11,9 +13,10 @@ const port = process.env.PORT || 5001;
 app.use(cors());
 app.use(bodyParser.json());
 
+app.use("/auth", authUserRouter);
+app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 app.use("/bloggers", bloggersRouter);
-
 app.get("/", (req, res) => {
   res.send("hello world!");
 });

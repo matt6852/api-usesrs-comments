@@ -26,7 +26,7 @@ postsRouter.post(
   isValidPost,
   inputValidator,
   async (req: Request, res: Response) => {
-    const bloggerId: number = parseInt(req.body.bloggerId);
+    const bloggerId = req.body.bloggerId;
     const blogger = await bloggersService.getBloggersById(bloggerId);
     if (!blogger) {
       res.status(400).send({
@@ -52,7 +52,7 @@ postsRouter.get(
   isValidId,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
 
     if (!id) {
       res.sendStatus(404);
@@ -74,7 +74,7 @@ postsRouter.put(
   isValidPost,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = parseInt(req.params.id);
+    const id = req.params.id;
     const findPost = await postsRepository.getPostsById(id);
     if (!findPost) {
       res.sendStatus(404);
@@ -85,7 +85,7 @@ postsRouter.put(
       title: req.body.title,
       content: req.body.content,
       shortDescription: req.body.shortDescription,
-      bloggerId: parseInt(req.body.bloggerId),
+      bloggerId: req.body.bloggerId,
     };
     const bloggerUpd = await bloggersRepository.getBloggersById(
       updPost.bloggerId
@@ -114,7 +114,7 @@ postsRouter.delete(
   isValidId,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const isDeleted = await postsService.deletePostById(id);
     if (!isDeleted) {
       res.sendStatus(404);

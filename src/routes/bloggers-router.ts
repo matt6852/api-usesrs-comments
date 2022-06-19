@@ -32,7 +32,7 @@ bloggersRouter.get(
   isValidId,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const blogger = await bloggersService.getBloggersById(id);
     if (blogger) {
       res.status(200).send(blogger);
@@ -48,7 +48,7 @@ bloggersRouter.get(
   async (req: Request, res: Response) => {
     const { PageNumber = 1, PageSize = 10 } = req.query;
 
-    const id = +req.params.id;
+    const id = req.params.id;
     const bloggerPosts = await bloggersService.getBloggersPostsById(
       id,
       +PageNumber!,
@@ -69,7 +69,7 @@ bloggersRouter.put(
   isValidBlog,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const updBlogger = await bloggersService.updateBloggerById(
       id,
       req.body.name,
@@ -106,7 +106,7 @@ bloggersRouter.post(
   isValidPostByUri,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const blogger = await bloggersService.getBloggersById(id);
     if (blogger) {
       const { title, content, shortDescription } = req.body;
@@ -129,7 +129,7 @@ bloggersRouter.delete(
   isValidId,
   inputValidator,
   async (req: Request, res: Response) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     const isDeleted = await bloggersService.deleteBloggerById(id);
     if (isDeleted) {
       res.sendStatus(204);

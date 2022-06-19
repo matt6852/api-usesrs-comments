@@ -20,7 +20,7 @@ export const postsRepository = {
     };
     return result;
   },
-  async getPostsById(id: number) {
+  async getPostsById(id: string) {
     const postsById = await postsCollection.findOne(
       { id },
       { projection: { _id: 0 } }
@@ -53,7 +53,7 @@ export const postsRepository = {
     return updPosts.value;
   },
 
-  async deletePostById(id: number) {
+  async deletePostById(id: string) {
     const result = await postsCollection.deleteOne({ id });
     return result.deletedCount === 1;
   },

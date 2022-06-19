@@ -22,11 +22,27 @@ export const inputValidator = (
   }
 };
 
-export const isValidId = [check("id").isInt({ gt: 8 })];
+export const isValidId = [check("id")];
 
 export const isValidBlog = [
   body("name").isString().isLength({ max: 15 }).trim().not().isEmpty().bail(),
   body("youtubeUrl").matches(reg).isLength({ max: 100 }).bail(),
+];
+export const isUserValid = [
+  body("login")
+    .isString()
+    .isLength({ max: 10, min: 3 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
+  body("password")
+    .isString()
+    .isLength({ max: 20, min: 6 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
 ];
 
 export const isValidPost = [

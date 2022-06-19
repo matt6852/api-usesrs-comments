@@ -1,6 +1,7 @@
 import { postsRepository } from "../repositories/posts-repository";
 import { NewPost } from "../repositories/db";
 import { bloggersService } from "./bloggers-service";
+import { v4 as uuidv4 } from "uuid";
 
 export const postsService = {
   async getPosts(
@@ -10,7 +11,7 @@ export const postsService = {
     const posts = await postsRepository.getPosts(PageNumber, PageSize);
     return posts;
   },
-  async getPostsById(id: number) {
+  async getPostsById(id: string) {
     const post = await postsRepository.getPostsById(id);
     return post;
   },
@@ -22,14 +23,14 @@ export const postsService = {
     const createPost = {
       ...newPost,
       bloggerName: blogger.name,
-      id: +new Date(),
+      id: uuidv4(),
     };
     return await postsRepository.createPosts(createPost);
   },
-  async updatePostsById(id: number, updatePost: NewPost) {
+  async updatePostsById(id: string, updatePost: NewPost) {
     return await postsRepository.updatePostsById({ id, ...updatePost });
   },
-  async deletePostById(id: number) {
+  async deletePostById(id: string) {
     return await postsRepository.deletePostById(id);
   },
 };

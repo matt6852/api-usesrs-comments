@@ -1,10 +1,11 @@
+import { settings } from "./../settings";
 import { MongoClient } from "mongodb";
 
-const mongoUri =
-  process.env.MONGO_URI ||
-  "mongodb://localhost:27017/?maxPoolSize=20&w=majority";
+// const mongoUri =
+//   process.env.MONGO_URI ||
+//   "mongodb://localhost:27017/?maxPoolSize=20&w=majority";
 
-export const client = new MongoClient(mongoUri);
+export const client = new MongoClient(settings.MONGO_URI);
 export const bloggersCollection = client
   .db("bloggers-posts")
   .collection("bloggers-management");

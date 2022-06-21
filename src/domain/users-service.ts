@@ -36,4 +36,7 @@ export const userService = {
   async findUser(user: User) {
     return await usersRepository.findUser(user);
   },
+  async findUserById(id: any) {
+    return await usersRepository.findUserById(id);
+  },
 };

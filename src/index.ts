@@ -1,3 +1,4 @@
+import { commentsRouter } from "./routes/comments-routet";
 import { usersRouter } from "./routes/users-router";
 import { authUserRouter } from "./routes/auth-router";
 import express from "express";
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authUserRouter);
+app.use("/comments", commentsRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);
 app.use("/bloggers", bloggersRouter);

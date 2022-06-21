@@ -35,7 +35,7 @@ export const usersRepository = {
   },
   async findUser(user: any) {
     const found = await usersCollection.findOne({
-      $or: [{ login: user.login }],
+      $or: [{ login: user.login }, { id: user }],
     });
     if (found) {
       console.log(user, "User");
@@ -46,6 +46,13 @@ export const usersRepository = {
       }
     }
 
-    return { err: "not found" };
+    return null;
+  },
+  async findUserById(id: any) {
+    const user = await usersCollection.findOne({ id });
+    if (user) {
+      return user;
+    }
+    return null;
   },
 };

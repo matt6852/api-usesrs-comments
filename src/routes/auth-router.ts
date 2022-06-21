@@ -7,6 +7,7 @@ import {
 } from "../middlewares/input-validator-middlewares";
 import { checkAuth } from "../middlewares/auth-middleware";
 import { postsService } from "../domain/posts-service";
+import { jwtService } from "../aplication/jwt-aplication";
 
 export const authUserRouter = Router({});
 
@@ -16,14 +17,15 @@ authUserRouter.post(
   inputValidator,
   async (req: Request, res: Response) => {
     const { login, password } = req.body;
-    const user = {
-      login,
-      password,
-    };
-    console.log(user, "USer ppost");
 
-    const result = await userService.findUser(user);
+    const user = await userService.findUserById({ login, password });
 
-    res.send(result);
+    if (user) {
+      const token = await jwtService.createJWT(user);
+      res.send(token);
+      return;
+    }
+
+    res.sendStatus(401);
   }
 );

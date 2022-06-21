@@ -1,4 +1,7 @@
+import { userService } from "./../domain/users-service";
+import { jwtService } from "./../aplication/jwt-aplication";
 import { Request, Response, NextFunction } from "express";
+import { send } from "process";
 // import { authService } from "../domain/users-service";
 export interface BaseAuthData {
   login: string;
@@ -52,4 +55,22 @@ export const checkAuth = async (
   }
 
   next();
+};
+
+export const checkJWT = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (!req.headers.authorization) {
+    return res.send(401);
+  }
+  const token = req.headers.authorization.split(" ")[1];
+  const { userId: id } = await jwtService.verifyJWT(token);
+  if (id) {
+    req.user = await userService.findUserById(id);
+    return next();
+  }
+  return res.sendStatus(401);
+  // next();
 };

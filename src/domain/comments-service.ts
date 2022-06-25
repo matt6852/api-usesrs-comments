@@ -43,7 +43,7 @@ export const comentsService = {
     return result;
   },
   async updateComment(data: any) {
-    console.log(data, "data");
+    // console.log(data, "data");
 
     const result = await commentsRepository.updateComment(data);
 

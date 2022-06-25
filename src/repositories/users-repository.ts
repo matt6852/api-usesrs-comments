@@ -31,6 +31,7 @@ export const usersRepository = {
   },
   async deleteUserById(id: string) {
     const delUser = await usersCollection.deleteOne({ id });
+    // const delUser = await usersCollection.deleteOne({ id });
     return delUser.deletedCount === 1;
   },
   async findUser(user: any) {

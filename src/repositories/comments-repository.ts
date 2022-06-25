@@ -78,7 +78,7 @@ export const commentsRepository = {
 
   async deletCommentById(data: any) {
     const result = await commentsCollection.deleteOne({ ...data });
-    console.log(result, "result");
+    // const result = await commentsCollection.deleteOne({ ...data });
 
     return result.deletedCount === 1;
   },

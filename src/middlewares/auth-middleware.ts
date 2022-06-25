@@ -34,12 +34,12 @@ export const checkAuth = async (
   next: NextFunction
 ) => {
   if (!req.headers.authorization) {
-    res.send(401);
+    res.sendStatus(401);
     return;
   }
 
   if (req.headers.authorization.split(" ")[0] !== "Basic") {
-    res.send(401);
+    res.sendStatus(401);
     return;
   }
 
@@ -50,7 +50,7 @@ export const checkAuth = async (
     decodedBaseData.login !== BaseAuthPayload.login &&
     decodedBaseData.password !== BaseAuthPayload.password
   ) {
-    res.send(401);
+    res.sendStatus(401);
     return;
   }
 
@@ -62,15 +62,22 @@ export const checkJWT = async (
   res: Response,
   next: NextFunction
 ) => {
-  if (!req.headers.authorization) {
-    return res.send(401);
+  try {
+    if (!req.headers.authorization) {
+      return res.sendStatus(401);
+    }
+    const token = req.headers.authorization.split(" ")[1];
+    const { userId: id } = await jwtService.verifyJWT(token);
+    if (id) {
+      req.user = await userService.findUserById(id);
+      return next();
+    }
+  } catch (error) {
+    console.log(error);
+
+    res.sendStatus(401);
   }
-  const token = req.headers.authorization.split(" ")[1];
-  const { userId: id } = await jwtService.verifyJWT(token);
-  if (id) {
-    req.user = await userService.findUserById(id);
-    return next();
-  }
-  return res.sendStatus(401);
+
+  // return res.sendStatus(401);
   // next();
 };

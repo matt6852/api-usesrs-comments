@@ -50,6 +50,7 @@ export const usersRepository = {
   },
   async findUserById(id: any) {
     const user = await usersCollection.findOne({ id });
+
     if (user) {
       return user;
     }

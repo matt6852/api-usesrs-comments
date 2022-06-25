@@ -13,6 +13,9 @@ export const postsCollection = client
   .db("bloggers-posts")
   .collection("posts-management");
 export const usersCollection = client.db("bloggers-posts").collection("users");
+export const commentsCollection = client
+  .db("bloggers-posts")
+  .collection("comments");
 
 export async function runDb() {
   try {

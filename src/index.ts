@@ -1,6 +1,6 @@
 import { commentsRouter } from "./routes/comments-routet";
 import { usersRouter } from "./routes/users-router";
-import { authUserRouter } from "./routes/auth-router";
+import { authUserRouter } from "./routes/login-router";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";

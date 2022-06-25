@@ -1,3 +1,4 @@
+import { isValidComment } from "./../middlewares/input-validator-middlewares";
 import { Request, Response, Router } from "express";
 import { postsService } from "../domain/posts-service";
 import { bloggersService } from "../domain/bloggers-service";
@@ -6,9 +7,10 @@ import {
   isValidId,
   isValidPost,
 } from "../middlewares/input-validator-middlewares";
-import { checkAuth } from "../middlewares/auth-middleware";
+import { checkAuth, checkJWT } from "../middlewares/auth-middleware";
 import { bloggersRepository } from "../repositories/bloggers-repository";
 import { postsRepository } from "../repositories/posts-repository";
+import { comentsService } from "../domain/comments-service";
 
 export const postsRouter = Router();
 
@@ -27,6 +29,7 @@ postsRouter.post(
   inputValidator,
   async (req: Request, res: Response) => {
     const bloggerId = req.body.bloggerId;
+
     const blogger = await bloggersService.getBloggersById(bloggerId);
     if (!blogger) {
       res.status(400).send({
@@ -42,6 +45,51 @@ postsRouter.post(
         shortDescription,
       });
       res.status(201).send(newPost);
+    }
+  }
+);
+postsRouter.post(
+  "/:postId/comments",
+  checkJWT,
+  isValidComment,
+  inputValidator,
+  async (req: Request, res: Response) => {
+    const id = req.params.postId;
+    if (!id) {
+      res.sendStatus(404);
+      return;
+    }
+    const post = await postsService.getPostsById(id);
+    if (!post) {
+      res.sendStatus(404);
+    } else {
+      const postComment = await comentsService.creatComment({
+        ...req.body,
+        ...req.user,
+        postID: id,
+      });
+      // console.log(postComment, "comment without ID");
+
+      res.send(postComment);
+    }
+  }
+);
+postsRouter.get(
+  "/:postId/comments",
+  checkJWT,
+  async (req: Request, res: Response) => {
+    const id = req.params.postId;
+    if (!id) {
+      res.sendStatus(404);
+      return;
+    }
+    const post = await postsService.getPostsById(id);
+    if (!post) {
+      res.sendStatus(404);
+    } else {
+      const postComment = await comentsService.getUsercomment(id);
+
+      res.send(postComment);
     }
   }
 );
@@ -101,7 +149,7 @@ postsRouter.put(
       res.sendStatus(404);
     } else {
       res.sendStatus(204);
-      console.log(updatePost);
+      // console.log(updatePost);
     }
   }
 );

@@ -1,4 +1,4 @@
-import { userService } from "./../domain/users-service";
+import { userService } from "../domain/users-service";
 import { body } from "express-validator";
 import { Request, Response, Router } from "express";
 import {
@@ -17,9 +17,7 @@ authUserRouter.post(
   inputValidator,
   async (req: Request, res: Response) => {
     const { login, password } = req.body;
-
     const user = await userService.findUser({ login, password });
-
     if (user) {
       const token = await jwtService.createJWT(user);
       res.send(token);

@@ -61,7 +61,16 @@ export const isValidPost = [
     .not()
     .isEmpty()
     .bail(),
-  body("bloggerId").isInt({ gt: 0 }).not().isEmpty().bail(),
+  body("bloggerId").isString().not().isEmpty().bail(),
+];
+export const isValidComment = [
+  body("content")
+    .isString()
+    .isLength({ max: 300, min: 20 })
+    .trim()
+    .not()
+    .isEmpty()
+    .bail(),
 ];
 export const isValidPostByUri = [
   body("title").isString().isLength({ max: 30 }).trim().not().isEmpty().bail(),

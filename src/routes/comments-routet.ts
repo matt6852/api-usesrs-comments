@@ -1,3 +1,4 @@
+import { comentsService } from "./../domain/comments-service";
 import { checkJWT } from "./../middlewares/auth-middleware";
 import { userService } from "./../domain/users-service";
 import { body } from "express-validator";
@@ -12,9 +13,23 @@ import { jwtService } from "../aplication/jwt-aplication";
 
 export const commentsRouter = Router({});
 
-commentsRouter.post("/", checkJWT, async (req: Request, res: Response) => {
-  const { login, password } = req.body;
-  res.send(req!.user);
+commentsRouter.get(
+  "/:commentId",
+  checkJWT,
+  async (req: Request, res: Response) => {
+    const id = req.params.commentId;
+    if (!id) {
+      res.sendStatus(404);
+      return;
+    }
+    const comment = await comentsService.getCommentById(id);
+
+    if (!comment) {
+      res.sendStatus(404);
+    } else {
+      res.send(comment);
+    }
+  }
 
   // const user = await userService.findUser({ login, password });
 
@@ -25,4 +40,4 @@ commentsRouter.post("/", checkJWT, async (req: Request, res: Response) => {
   // }
 
   // res.sendStatus(401);
-});
+);

@@ -76,7 +76,7 @@ postsRouter.post(
 );
 postsRouter.get(
   "/:postId/comments",
-  checkJWT,
+
   async (req: Request, res: Response) => {
     const id = req.params.postId;
     if (!id) {

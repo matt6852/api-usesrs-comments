@@ -53,7 +53,6 @@ export const checkAuth = async (
     res.sendStatus(401);
     return;
   }
-
   next();
 };
 

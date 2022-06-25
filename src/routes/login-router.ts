@@ -17,7 +17,7 @@ authUserRouter.post(
   // inputValidator,
   async (req: Request, res: Response) => {
     const { login, password } = req.body;
-    if (login || password) {
+    if (login && password) {
       const user = await userService.findUser({ login, password });
       if (user) {
         const token = await jwtService.createJWT(user);

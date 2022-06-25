@@ -70,12 +70,20 @@ export const commentsRepository = {
       { $set: { content } },
       { upsert: true }
     );
+    console.log(updPosts, "updPosts");
+
     return updPosts.value;
   },
 
   async deletCommentById(data: any) {
-    const result = await commentsCollection.deleteOne({ ...data });
+    console.log(data, "updPosts");
+
+    const result = await commentsCollection.deleteOne({
+      id: data.id,
+      userId: data.userId,
+    });
     // const result = await commentsCollection.deleteOne({ ...data });
+    console.log(result, "result!!!");
 
     return result.deletedCount === 1;
   },

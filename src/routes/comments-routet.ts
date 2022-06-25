@@ -28,32 +28,7 @@ commentsRouter.get("/:commentId", async (req: Request, res: Response) => {
     res.send(comment);
   }
 });
-commentsRouter.delete(
-  "/:commentId",
-  checkJWT,
-  async (req: Request, res: Response) => {
-    const id = req.params.commentId;
-    if (!id) {
-      res.sendStatus(404);
-      return;
-    }
-    const exsist = await comentsService.getCommentById(id);
-    if (exsist) {
-      const comment = await comentsService.deleteCommentById({
-        id,
-        userId: req.user.id,
-      });
 
-      if (comment) {
-        return res.sendStatus(204);
-      }
-      res.sendStatus(403);
-    } else {
-      res.sendStatus(404);
-      return;
-    }
-  }
-);
 commentsRouter.put(
   "/:commentId",
   checkJWT,
@@ -74,6 +49,33 @@ commentsRouter.put(
       });
 
       if (updatedComment) {
+        return res.sendStatus(204);
+      }
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(404);
+      return;
+    }
+  }
+);
+
+commentsRouter.delete(
+  "/:commentId",
+  checkJWT,
+  async (req: Request, res: Response) => {
+    const id = req.params.commentId;
+    if (!id) {
+      res.sendStatus(404);
+      return;
+    }
+    const exsist = await comentsService.getCommentById(id);
+    if (exsist) {
+      const comment = await comentsService.deleteCommentById({
+        id,
+        userId: req.user.id,
+      });
+
+      if (comment) {
         return res.sendStatus(204);
       }
       res.sendStatus(403);

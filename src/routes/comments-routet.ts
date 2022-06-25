@@ -6,6 +6,7 @@ import { Request, Response, Router } from "express";
 import {
   inputValidator,
   isUserValid,
+  isValidComment,
 } from "../middlewares/input-validator-middlewares";
 import { checkAuth } from "../middlewares/auth-middleware";
 import { postsService } from "../domain/posts-service";
@@ -30,14 +31,47 @@ commentsRouter.get(
       res.send(comment);
     }
   }
+);
+commentsRouter.delete(
+  "/:commentId",
+  checkJWT,
+  async (req: Request, res: Response) => {
+    const id = req.params.commentId;
+    if (!id) {
+      res.sendStatus(404);
+      return;
+    }
+    const comment = await comentsService.deleteCommentById({
+      id,
+      userId: req.user.id,
+    });
 
-  // const user = await userService.findUser({ login, password });
+    if (comment) {
+      res.sendStatus(204);
+    }
+    res.sendStatus(403);
+  }
+);
+commentsRouter.put(
+  "/:commentId",
+  checkJWT,
+  isValidComment,
+  inputValidator,
+  async (req: Request, res: Response) => {
+    const id = req.params.commentId;
+    if (!id) {
+      res.sendStatus(404);
+      return;
+    }
+    const updatedComment = await comentsService.updateComment({
+      id,
+      userId: req.user.id,
+      content: req.body.content,
+    });
 
-  // if (user) {
-  //   const token = await jwtService.createJWT(user);
-  //   res.send(token);
-  //   return;
-  // }
-
-  // res.sendStatus(401);
+    if (updatedComment) {
+      return res.sendStatus(204);
+    }
+    res.sendStatus(403);
+  }
 );

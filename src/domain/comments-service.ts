@@ -35,4 +35,18 @@ export const comentsService = {
 
     return result;
   },
+  async deleteCommentById(data: any) {
+    // console.log(data, "data");
+
+    const result = await commentsRepository.deletCommentById(data);
+
+    return result;
+  },
+  async updateComment(data: any) {
+    console.log(data, "data");
+
+    const result = await commentsRepository.updateComment(data);
+
+    return result;
+  },
 };

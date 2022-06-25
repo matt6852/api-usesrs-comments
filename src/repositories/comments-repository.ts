@@ -64,18 +64,22 @@ export const commentsRepository = {
     }
   },
 
-  async updatePostsById(updatePost: PostsCon) {
-    const id = updatePost.id;
+  async updateComment(updateComent: any) {
+    const { id, userId, content } = updateComent;
+    console.log(updateComent);
+
     const updPosts = await commentsCollection.findOneAndUpdate(
-      { id },
-      { $set: { ...updatePost } },
+      { id, userId },
+      { $set: { content } },
       { upsert: true }
     );
     return updPosts.value;
   },
 
-  async deletePostById(id: string) {
-    const result = await commentsCollection.deleteOne({ id });
+  async deletCommentById(data: any) {
+    const result = await commentsCollection.deleteOne({ ...data });
+    console.log(result, "result");
+
     return result.deletedCount === 1;
   },
 };

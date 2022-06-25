@@ -63,8 +63,6 @@ export const commentsRepository = {
 
   async updateComment(updateComent: any) {
     const { id, userId, content } = updateComent;
-    console.log(updateComent);
-
     const updPosts = await commentsCollection.findOneAndUpdate(
       { id, userId },
       { $set: { content } },

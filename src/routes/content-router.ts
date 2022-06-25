@@ -70,7 +70,7 @@ postsRouter.post(
       });
       // console.log(postComment, "comment without ID");
 
-      res.send(postComment);
+      res.status(201).send(postComment);
     }
   }
 );

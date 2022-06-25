@@ -41,15 +41,21 @@ commentsRouter.delete(
       res.sendStatus(404);
       return;
     }
-    const comment = await comentsService.deleteCommentById({
-      id,
-      userId: req.user.id,
-    });
+    const exsist = await comentsService.getCommentById(id);
+    if (exsist) {
+      const comment = await comentsService.deleteCommentById({
+        id,
+        userId: req.user.id,
+      });
 
-    if (comment) {
-      return res.sendStatus(204);
+      if (comment) {
+        return res.sendStatus(204);
+      }
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(404);
+      return;
     }
-    res.sendStatus(403);
   }
 );
 commentsRouter.put(
@@ -63,15 +69,21 @@ commentsRouter.put(
       res.sendStatus(404);
       return;
     }
-    const updatedComment = await comentsService.updateComment({
-      id,
-      userId: req.user.id,
-      content: req.body.content,
-    });
+    const exsist = await comentsService.getCommentById(id);
+    if (exsist) {
+      const updatedComment = await comentsService.updateComment({
+        id,
+        userId: req.user.id,
+        content: req.body.content,
+      });
 
-    if (updatedComment) {
-      return res.sendStatus(204);
+      if (updatedComment) {
+        return res.sendStatus(204);
+      }
+      res.sendStatus(403);
+    } else {
+      res.sendStatus(404);
+      return;
     }
-    res.sendStatus(403);
   }
 );

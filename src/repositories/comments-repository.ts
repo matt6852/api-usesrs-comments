@@ -63,10 +63,12 @@ export const commentsRepository = {
 
   async updateComment(updateComent: any) {
     const { id, userId, content } = updateComent;
+    console.log(userId, "userId");
+
     const updPosts = await commentsCollection.findOneAndUpdate(
-      { id, userId },
-      { $set: { content } },
-      { upsert: true }
+      // { id, userId },
+      { $and: [{ id }, { userId }] },
+      { $set: { content } }
     );
     console.log(updPosts, "updPosts");
 
@@ -74,7 +76,7 @@ export const commentsRepository = {
   },
 
   async deletCommentById(data: any) {
-    console.log(data, "updPosts");
+    console.log(data, "deleted");
 
     const result = await commentsCollection.deleteOne({
       id: data.id,

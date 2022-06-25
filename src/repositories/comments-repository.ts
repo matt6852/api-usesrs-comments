@@ -42,8 +42,8 @@ export const commentsRepository = {
 
       return {
         pagesCount: Math.ceil(+totalCount / PageSize!),
-        page: PageNumber,
-        pageSize: PageSize,
+        page: +PageNumber,
+        pageSize: +PageSize,
         totalCount,
         items: postComments.map((comment) => {
           const mapped = {

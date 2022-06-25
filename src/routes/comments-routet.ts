@@ -14,24 +14,20 @@ import { jwtService } from "../aplication/jwt-aplication";
 
 export const commentsRouter = Router({});
 
-commentsRouter.get(
-  "/:commentId",
-  checkJWT,
-  async (req: Request, res: Response) => {
-    const id = req.params.commentId;
-    if (!id) {
-      res.sendStatus(404);
-      return;
-    }
-    const comment = await comentsService.getCommentById(id);
-
-    if (!comment) {
-      res.sendStatus(404);
-    } else {
-      res.send(comment);
-    }
+commentsRouter.get("/:commentId", async (req: Request, res: Response) => {
+  const id = req.params.commentId;
+  if (!id) {
+    res.sendStatus(404);
+    return;
   }
-);
+  const comment = await comentsService.getCommentById(id);
+
+  if (!comment) {
+    res.sendStatus(404);
+  } else {
+    res.send(comment);
+  }
+});
 commentsRouter.delete(
   "/:commentId",
   checkJWT,

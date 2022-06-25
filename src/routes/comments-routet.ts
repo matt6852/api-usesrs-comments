@@ -47,7 +47,7 @@ commentsRouter.delete(
     });
 
     if (comment) {
-      res.sendStatus(204);
+      return res.sendStatus(204);
     }
     res.sendStatus(403);
   }

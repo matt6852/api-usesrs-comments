@@ -71,9 +71,8 @@ export const bloggersRepository = {
     }
   },
   async deleteBloggerById(id: string) {
-    const delBlog = await bloggersCollection.drop();
-    // const delBlog = await bloggersCollection.deleteOne({ id });
-    return delBlog;
+    const delBlog = await bloggersCollection.deleteOne({ id });
+    return delBlog.deletedCount === 1;
   },
   async updateBloggerById(id: string, name: string, youtubeUrl: string) {
     const updBlog = await bloggersCollection.findOneAndUpdate(

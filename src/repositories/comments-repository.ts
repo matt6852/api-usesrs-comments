@@ -26,11 +26,8 @@ export const commentsRepository = {
 
     return createcComment;
   },
-  async getUserCommentsByID(
-    id: string,
-    PageNumber: number | undefined | null = 1,
-    PageSize: number | undefined | null = 10
-  ) {
+  async getUserCommentsByID(data: any) {
+    const { id, PageNumber, PageSize } = data;
     const post = await postsCollection.findOne({ id });
 
     if (post) {

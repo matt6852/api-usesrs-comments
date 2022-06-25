@@ -74,25 +74,27 @@ postsRouter.post(
     }
   }
 );
-postsRouter.get(
-  "/:postId/comments",
-
-  async (req: Request, res: Response) => {
-    const id = req.params.postId;
-    if (!id) {
-      res.sendStatus(404);
-      return;
-    }
-    const post = await postsService.getPostsById(id);
-    if (!post) {
-      res.sendStatus(404);
-    } else {
-      const postComment = await comentsService.getUsercomment(id);
-
-      res.send(postComment);
-    }
+postsRouter.get("/:postId/comments", async (req: Request, res: Response) => {
+  const { SearchNameTerm, PageNumber = 1, PageSize = 10 } = req.query;
+  const id = req.params.postId;
+  if (!id) {
+    res.sendStatus(404);
+    return;
   }
-);
+  const post = await postsService.getPostsById(id);
+  if (!post) {
+    res.sendStatus(404);
+  } else {
+    const postComment = await comentsService.getUsercomment({
+      id,
+      SearchNameTerm,
+      PageNumber,
+      PageSize,
+    });
+
+    res.send(postComment);
+  }
+});
 
 postsRouter.get(
   "/:id",

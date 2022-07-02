@@ -25,8 +25,9 @@ export const comentsService = {
     delete result.postID;
     return result;
   },
-  async getUsercomment(id: any) {
-    const result = await commentsRepository.getUserCommentsByID(id);
+  async getUsercomment(data: any) {
+ 
+    const result = await commentsRepository.getUserCommentsByID(data);
 
     return result;
   },

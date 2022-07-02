@@ -7,6 +7,7 @@ import bodyParser from "body-parser";
 import { runDb } from "./repositories/db";
 import { bloggersRouter } from "./routes/bloggers-router";
 import { postsRouter } from "./routes/content-router";
+import { clearDBrouter } from "./routes/clear-db-rourer";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/auth", authUserRouter);
+app.use("/testing", clearDBrouter);
 app.use("/comments", commentsRouter);
 app.use("/users", usersRouter);
 app.use("/posts", postsRouter);

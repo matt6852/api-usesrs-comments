@@ -54,6 +54,7 @@ export type NewPost = {
 export type User = {
   login: string;
   password: string;
+  email: string;
 };
 
 export type UpdPost = {

@@ -5,7 +5,6 @@ import { body } from "express-validator";
 import { Request, Response, Router } from "express";
 import {
   inputValidator,
-  isUserValid,
   isValidComment,
 } from "../middlewares/input-validator-middlewares";
 import { checkAuth } from "../middlewares/auth-middleware";

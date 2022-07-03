@@ -3,7 +3,7 @@ import { body } from "express-validator";
 import { Request, Response, Router } from "express";
 import {
   inputValidator,
-  isUserValid,
+  isUserValidRegistration,
 } from "../middlewares/input-validator-middlewares";
 import { checkAuth } from "../middlewares/auth-middleware";
 
@@ -15,13 +15,13 @@ usersRouter.get("/", async (req: Request, res: Response) => {
   res.status(200).send(users);
 });
 usersRouter.post(
-  "/",
+  "/", 
   checkAuth,
-  isUserValid,
+  isUserValidRegistration,
   inputValidator,
   async (req: Request, res: Response) => {
-    const { login, password } = req.body;
-    const createdUser = await userService.creatUser({ login, password });
+    const { login, password, email } = req.body;
+    const createdUser = await userService.creatUser({ login, password, email });
     res.status(201).send(createdUser);
   }
 );

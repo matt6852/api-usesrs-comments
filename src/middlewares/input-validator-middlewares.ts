@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { body, check, validationResult } from "express-validator";
 
 const reg = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/;
+const regEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 export const inputValidator = (
   req: Request,
@@ -28,7 +29,23 @@ export const isValidBlog = [
   body("name").isString().isLength({ max: 15 }).trim().not().isEmpty().bail(),
   body("youtubeUrl").matches(reg).isLength({ max: 100 }).bail(),
 ];
-export const isUserValid = [
+// export const isUserValid = [
+//   body("login")
+//     .isString()
+//     .isLength({ max: 10, min: 3 })
+//     .trim()
+//     .not()
+//     .isEmpty()
+//     .bail(),
+//   body("password")
+//     .isString()
+//     .isLength({ max: 20, min: 6 })
+//     .trim()
+//     .not()
+//     .isEmpty()
+//     .bail(),
+// ];
+export const isUserValidRegistration = [
   body("login")
     .isString()
     .isLength({ max: 10, min: 3 })
@@ -36,6 +53,7 @@ export const isUserValid = [
     .not()
     .isEmpty()
     .bail(),
+  body("email").matches(regEmail),
   body("password")
     .isString()
     .isLength({ max: 20, min: 6 })

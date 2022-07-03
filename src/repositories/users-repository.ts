@@ -70,14 +70,7 @@ export const usersRepository = {
   },
   async checkExistingUser(chekUser: any) {
     const user = await usersCollection.findOne({
-      $or: [
-        {
-          "accountData.login": chekUser.login,
-        },
-        {
-          "accountData.email": chekUser.email,
-        },
-      ],
+      "accountData.email": chekUser.email,
     });
 
     if (user) {

@@ -36,7 +36,14 @@ authUserRouter.post(
       email,
     });
     if (user) {
-      return res.sendStatus(400);
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "email",
+          },
+        ],
+      });
     }
     const result = await registrationServise.registratUserByEmai(
       email,

@@ -37,4 +37,8 @@ export const registrationServise = {
     const foundUser = await usersRepository.findUserByCode(code);
     return foundUser;
   },
+  async checkExistingUser(user: any) {
+    const foundUser = await usersRepository.checkExistingUser(user);
+    return foundUser;
+  },
 };

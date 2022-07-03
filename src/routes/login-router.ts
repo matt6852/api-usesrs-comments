@@ -31,7 +31,10 @@ authUserRouter.post(
   inputValidator,
   async (req: Request, res: Response) => {
     const { login, password, email } = req.body;
-    const user = await userService.findUser({ login, password });
+    const user = await registrationServise.checkExistingUser({
+      login,
+      email,
+    });
     if (user) {
       return res.sendStatus(400);
     }

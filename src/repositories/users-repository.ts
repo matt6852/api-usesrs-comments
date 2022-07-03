@@ -38,7 +38,7 @@ export const usersRepository = {
   },
   async findUser(user: any) {
     const found = await usersCollection.findOne({
-      $or: [
+      $and: [
         {
           "accountData.login": user.login,
           "emailConfirmation.isConfirmed": true,
@@ -62,6 +62,23 @@ export const usersRepository = {
   },
   async findUserById(id: any) {
     const user = await usersCollection.findOne({ id });
+
+    if (user) {
+      return user;
+    }
+    return null;
+  },
+  async checkExistingUser(chekUser: any) {
+    const user = await usersCollection.findOne({
+      $or: [
+        {
+          "accountData.login": chekUser.login,
+        },
+        {
+          "accountData.email": chekUser.email,
+        },
+      ],
+    });
 
     if (user) {
       return user;

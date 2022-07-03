@@ -3,11 +3,13 @@ import { usersCollection } from "./db";
 import bcrypt from "bcrypt";
 
 export const usersRepository = {
-  async createUser(createPost: UserCreated) {
-    await usersCollection.insertOne(createPost, { forceServerObjectId: true });
+  async createUser(createdNewUser: any) {
+    await usersCollection.insertOne(createdNewUser, {
+      forceServerObjectId: true,
+    });
     return {
-      id: createPost.id,
-      login: createPost.login,
+      id: createdNewUser.id,
+      login: createdNewUser.login,
     };
   },
   async getAllUsers(
@@ -31,21 +33,50 @@ export const usersRepository = {
   },
   async deleteUserById(id: string) {
     const delUser = await usersCollection.deleteOne({ id });
+    // const delUser = await usersCollection.deleteOne({ id });
     return delUser.deletedCount === 1;
   },
   async findUser(user: any) {
     const found = await usersCollection.findOne({
-      $or: [{ login: user.login }],
+      $or: [
+        {
+          "accountData.login": user.login,
+          "emailConfirmation.isConfirmed": true,
+        },
+        { id: user },
+      ],
     });
+    console.log(found, "Found!!!");
+
     if (found) {
-      console.log(user, "User");
-      const result = await bcrypt.compare(user.password, found.password);
-      console.log(result, "result");
+      const result = await bcrypt.compare(
+        user.password,
+        found.accountData.password
+      );
       if (result) {
         return found;
       }
     }
 
-    return { err: "not found" };
+    return null;
+  },
+  async findUserById(id: any) {
+    const user = await usersCollection.findOne({ id });
+
+    if (user) {
+      return user;
+    }
+    return null;
+  },
+  async findUserByCode(code: any) {
+    const user = await usersCollection.findOneAndUpdate(
+      { "emailConfirmation.confirmCode": code },
+      { $set: { "emailConfirmation.isConfirmed": true } }
+    );
+
+    if (user) {
+      return user.value;
+    }
+    return null;
   },
 };

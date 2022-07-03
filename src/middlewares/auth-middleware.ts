@@ -1,4 +1,7 @@
+import { userService } from "./../domain/users-service";
+import { jwtService } from "./../aplication/jwt-aplication";
 import { Request, Response, NextFunction } from "express";
+import { send } from "process";
 // import { authService } from "../domain/users-service";
 export interface BaseAuthData {
   login: string;
@@ -31,12 +34,12 @@ export const checkAuth = async (
   next: NextFunction
 ) => {
   if (!req.headers.authorization) {
-    res.send(401);
+    res.sendStatus(401);
     return;
   }
 
   if (req.headers.authorization.split(" ")[0] !== "Basic") {
-    res.send(401);
+    res.sendStatus(401);
     return;
   }
 
@@ -47,9 +50,33 @@ export const checkAuth = async (
     decodedBaseData.login !== BaseAuthPayload.login &&
     decodedBaseData.password !== BaseAuthPayload.password
   ) {
-    res.send(401);
+    res.sendStatus(401);
     return;
   }
-
   next();
+};
+
+export const checkJWT = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    if (!req.headers.authorization) {
+      return res.sendStatus(401);
+    }
+    const token = req.headers.authorization.split(" ")[1];
+    const { userId: id } = await jwtService.verifyJWT(token);
+    if (id) {
+      req.user = await userService.findUserById(id);
+      return next();
+    }
+  } catch (error) {
+    console.log(error);
+
+    res.sendStatus(401);
+  }
+
+  // return res.sendStatus(401);
+  // next();
 };

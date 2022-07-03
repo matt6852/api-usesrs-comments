@@ -11,7 +11,7 @@ import {
 import { checkAuth } from "../middlewares/auth-middleware";
 import { postsService } from "../domain/posts-service";
 
-const reg = /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+$/;
+
 
 export const bloggersRouter = Router({});
 

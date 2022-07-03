@@ -29,8 +29,6 @@ export const bloggersRepository = {
     return result;
   },
   async getBloggersById(id: string) {
-    console.log(id, "id");
-
     const bloggerById = await bloggersCollection.findOne({ id });
     if (bloggerById) {
       return {

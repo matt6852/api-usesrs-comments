@@ -15,8 +15,6 @@ export const authUserRouter = Router({});
 authUserRouter.post("/login", async (req: Request, res: Response) => {
   const { login, password, email } = req.body;
   if (login && password) {
-    console.log("test");
-
     const user = await userService.findUser({ login, password });
     if (user) {
       const token = await jwtService.createJWT(user);

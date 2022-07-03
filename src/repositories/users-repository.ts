@@ -38,7 +38,7 @@ export const usersRepository = {
   },
   async findUser(user: any) {
     const found = await usersCollection.findOne({
-      $and: [
+      $or: [
         {
           "accountData.login": user.login,
           "emailConfirmation.isConfirmed": true,

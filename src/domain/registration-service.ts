@@ -53,7 +53,7 @@ export const registrationServise = {
     const updateCode = await usersRepository.findUserAndUpdateConfirmCode(
       foundUser
     );
-    const result = await emailManager.sendEmail(updateCode);
+    const result = await emailManager.sendEmail(updateCode?.value);
     return updateCode;
 
     // return false;

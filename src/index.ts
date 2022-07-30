@@ -17,6 +17,8 @@ const app = express();
 const port = process.env.PORT || 5001;
 app.use(cors());
 app.use(bodyParser.json());
+// app.enabled()
+app.set("trust proxy", true);
 
 app.use("/auth", authUserRouter);
 app.use("/testing", clearDBrouter);

@@ -2,6 +2,13 @@ import { userService } from "./../domain/users-service";
 import { jwtService } from "./../aplication/jwt-aplication";
 import { Request, Response, NextFunction } from "express";
 import { send } from "process";
+
+type HackerType = {
+  ip: string;
+  url: string;
+  date: number;
+};
+const hackersArr: HackerType[] = [];
 // import { authService } from "../domain/users-service";
 export interface BaseAuthData {
   login: string;
@@ -78,5 +85,35 @@ export const checkJWT = async (
   }
 
   // return res.sendStatus(401);
+  // next();
+};
+
+export const antiDDoSMidleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const ip = req.ip;
+  const baseUrl = req.baseUrl;
+  const path = req.route.path;
+  const clientUri = baseUrl + path;
+
+  console.log(ip, clientUri);
+  console.log(req.headers["user-agent"]);
+  const ddosArr = hackersArr.filter(
+    (h) => h.ip === ip && h.url === clientUri && h.date > Date.now() - 10 * 1000
+  );
+  if (ddosArr.length > 4) {
+    res.sendStatus(429);
+    return;
+  }
+  hackersArr.push({ date: Date.now(), ip, url: clientUri });
+  res.send({
+    length: ddosArr.length,
+    ddosArr,
+    hacersLength: hackersArr.length,
+    hackersArr,
+  });
+  next();
   // next();
 };

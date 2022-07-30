@@ -84,6 +84,13 @@ export const usersRepository = {
     }
     return null;
   },
+  async findUserByEmail(email: any) {
+    const result = await usersCollection.findOne({
+      "accountData.email": email,
+    });
+    if (!result) return null;
+    return result;
+  },
   async findUserByCode(code: any) {
     const user = await usersCollection.findOneAndUpdate(
       { "emailConfirmation.confirmCode": code },

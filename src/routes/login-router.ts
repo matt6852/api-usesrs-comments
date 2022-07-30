@@ -96,7 +96,7 @@ authUserRouter.post(
         ],
       });
     }
-    const result = await registrationServise.resendindEmail(email);
+    const result = await registrationServise.resendRegistration(email);
     if (result) {
       return res.status(204).send(result);
     }

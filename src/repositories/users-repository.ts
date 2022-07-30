@@ -86,7 +86,10 @@ export const usersRepository = {
   },
   async findUserByEmail(email: any) {
     const result = await usersCollection.findOne({
-      "accountData.email": email,
+      $and: [
+        { "accountData.email": email },
+        { "emailConfirmation.isConfirmed": false },
+      ],
     });
     if (!result) return null;
     return result;
@@ -101,5 +104,16 @@ export const usersRepository = {
       return user.value;
     }
     return null;
+  },
+  async findUserAndUpdateConfirmCode(user: any) {
+    const updateUserCode = await usersCollection.findOneAndUpdate(
+      { "accountData.email": user.accountData.email },
+      { $set: user }
+    );
+    console.log(updateUserCode, "findUserAndUpdateConfirmCode");
+
+    if (updateUserCode) {
+      return updateUserCode;
+    }
   },
 };

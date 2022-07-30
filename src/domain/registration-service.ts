@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { add } from "date-fns";
-import { usersRepository } from "../repositories/users-repository";
+// import { usersRepository } from "../repositories/users-repository";
 const roundSalts = 10;
 export const registrationServise = {
   async registratUserByEmai(email: string, login: string, password: string) {

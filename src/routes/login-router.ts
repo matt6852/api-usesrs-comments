@@ -119,6 +119,6 @@ authUserRouter.get(
   // isUserValidRegistration,
   // inputValidator,
   async (req: Request, res: Response) => {
-    res.send("My test");
+    // res.send("My test");
   }
 );

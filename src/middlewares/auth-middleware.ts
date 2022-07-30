@@ -108,12 +108,12 @@ export const antiDDoSMidleware = async (
     return;
   }
   hackersArr.push({ date: Date.now(), ip, url: clientUri });
-  res.send({
-    length: ddosArr.length,
-    ddosArr,
-    hacersLength: hackersArr.length,
-    hackersArr,
-  });
+  // res.send({
+  //   length: ddosArr.length,
+  //   ddosArr,
+  //   hacersLength: hackersArr.length,
+  //   hackersArr,
+  // });
   next();
   // next();
 };

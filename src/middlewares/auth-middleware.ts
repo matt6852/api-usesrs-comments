@@ -2,6 +2,13 @@ import { userService } from "./../domain/users-service";
 import { jwtService } from "./../aplication/jwt-aplication";
 import { Request, Response, NextFunction } from "express";
 import { send } from "process";
+
+type HackerType = {
+  id: string;
+  url: string;
+  data: number;
+};
+const hackersArr: HackerType[] = [];
 // import { authService } from "../domain/users-service";
 export interface BaseAuthData {
   login: string;
@@ -79,4 +86,15 @@ export const checkJWT = async (
 
   // return res.sendStatus(401);
   // next();
+};
+
+export const antiDDoSMidleware = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const ip = req.ip;
+  console.log(ip);
+  console.log(req.headers["user-agent"]);
+  next();
 };

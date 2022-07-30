@@ -27,7 +27,8 @@ export const registrationServise = {
     };
     const createdUser = await usersRepository.createUser(registratedUser);
     try {
-      emailManager.sendEmail(registratedUser);
+      const result = await emailManager.sendEmail(registratedUser);
+      if (!result) return null;
       return createdUser;
     } catch (error) {
       return null;
@@ -40,5 +41,10 @@ export const registrationServise = {
   async checkExistingUser(user: any) {
     const foundUser = await usersRepository.checkExistingUser(user);
     return foundUser;
+  },
+  async resendindEmail(email: any) {
+    const foundUser = await usersRepository.findUserByEmail(email);
+    const result = await emailManager.sendEmail(foundUser);
+    return result;
   },
 };

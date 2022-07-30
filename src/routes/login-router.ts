@@ -9,6 +9,7 @@ import {
 import { jwtService } from "../aplication/jwt-aplication";
 import { emailManager } from "../aplication/email-manager";
 import { registrationServise } from "../domain/registration-service";
+import { antiDDoSMidleware } from "../middlewares/auth-middleware";
 
 export const authUserRouter = Router({});
 
@@ -59,7 +60,6 @@ authUserRouter.post(
 );
 authUserRouter.post(
   "/registration-confirmation",
-
   async (req: Request, res: Response) => {
     const { code } = req.query;
     if (!code) {
@@ -73,6 +73,28 @@ authUserRouter.post(
       });
     }
     const result = await registrationServise.confirmEmail(code);
+    if (result) {
+      return res.send(result);
+    }
+    res.sendStatus(404);
+  }
+);
+authUserRouter.post(
+  "/registration-email-resending",
+  antiDDoSMidleware,
+  async (req: Request, res: Response) => {
+    const { email } = req.body;
+    if (!email) {
+      return res.send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: "email",
+          },
+        ],
+      });
+    }
+    const result = await registrationServise.resendindEmail(email);
     if (result) {
       return res.send(result);
     }

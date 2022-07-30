@@ -44,6 +44,7 @@ export const registrationServise = {
   },
   async resendindEmail(email: any) {
     const foundUser = await usersRepository.findUserByEmail(email);
+    if (!foundUser) return null;
     const result = await emailManager.sendEmail(foundUser);
     return result;
   },

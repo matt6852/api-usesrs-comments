@@ -98,7 +98,7 @@ authUserRouter.post(
     }
     const result = await registrationServise.resendindEmail(email);
     if (result) {
-      return res.send(result);
+      return res.status(204).send(result);
     }
     res.sendStatus(404);
   }

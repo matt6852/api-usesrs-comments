@@ -5,6 +5,7 @@ import {
   inputValidator,
   isUserValidRegistration,
 } from "../middlewares/input-validator-middlewares";
+import { User } from "../repositories/db";
 
 import { jwtService } from "../aplication/jwt-aplication";
 import { emailManager } from "../aplication/email-manager";

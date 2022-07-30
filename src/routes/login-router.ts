@@ -89,3 +89,12 @@ authUserRouter.get(
     console.log(code, "confirmCode");
   }
 );
+
+authUserRouter.get(
+  "/my-test",
+  // isUserValidRegistration,
+  // inputValidator,
+  async (req: Request, res: Response) => {
+    res.send("My test");
+  }
+);

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 export const jwtService = {
   async createJWT(user: any) {
-    const token = jwt.sign({ userId: user.id }, settings.JWT_SECRET, {
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET!, {
       expiresIn: "10h",
     });
     return { token };
@@ -11,7 +11,7 @@ export const jwtService = {
   async verifyJWT(token: any) {
     try {
       let result: any;
-      result = jwt.verify(token, settings.JWT_SECRET);
+      result = jwt.verify(token, process.env.JWT_SECRET!);
       return result;
     } catch (error) {
       return null;

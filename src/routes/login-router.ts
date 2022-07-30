@@ -31,6 +31,20 @@ authUserRouter.post(
   inputValidator,
   async (req: Request, res: Response) => {
     const { login, password, email } = req.body;
+    const wrongField = await registrationServise.checkExistingUser({
+      login,
+      email,
+    });
+    if (wrongField) {
+      return res.status(400).send({
+        errorsMessages: [
+          {
+            message: "Invalid value",
+            field: wrongField,
+          },
+        ],
+      });
+    }
     const result = await registrationServise.registratUserByEmai(
       email,
       login,

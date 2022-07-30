@@ -68,6 +68,22 @@ export const usersRepository = {
     }
     return null;
   },
+  async checkExistingUser(chekUser: any) {
+    const login = await usersCollection.findOne({
+      "accountData.login": chekUser.login,
+    });
+    const email = await usersCollection.findOne({
+      "accountData.email": chekUser.email,
+    });
+
+    if (login) {
+      return "login";
+    }
+    if (email) {
+      return "email";
+    }
+    return null;
+  },
   async findUserByCode(code: any) {
     const user = await usersCollection.findOneAndUpdate(
       { "emailConfirmation.confirmCode": code },

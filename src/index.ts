@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { commentsRouter } from "./routes/comments-routet";
 import { usersRouter } from "./routes/users-router";
 import { authUserRouter } from "./routes/login-router";
@@ -8,6 +9,8 @@ import { runDb } from "./repositories/db";
 import { bloggersRouter } from "./routes/bloggers-router";
 import { postsRouter } from "./routes/content-router";
 import { clearDBrouter } from "./routes/clear-db-rourer";
+// import * as dotenv from "dotenv";
+// dotenv.config();
 
 const app = express();
 
@@ -26,6 +29,7 @@ app.get("/", (req, res) => {
 });
 const startApp = async () => {
   await runDb();
+
   app.listen(port, () => {
     console.log(`Example app listening on port: ${port}`);
   });

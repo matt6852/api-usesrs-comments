@@ -6,8 +6,8 @@ export const emailManager = {
       const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-          user: "sergeydevsergey@gmail.com", // generated ethereal user
-          pass: "blgzbrsdqjsruzjd", // generated ethereal password
+          user: process.env.USER_EMAIL!, // generated ethereal user
+          pass: process.env.USER_PASSWORD!, // generated ethereal password
         },
       });
 

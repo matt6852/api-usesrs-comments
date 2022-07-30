@@ -1,4 +1,4 @@
-import { UserCreated } from "../domain/users-service";
+// import { UserCreated } from "../domain/users-service";
 import { usersCollection } from "./db";
 import bcrypt from "bcrypt";
 
@@ -46,7 +46,7 @@ export const usersRepository = {
         { id: user },
       ],
     });
-    console.log(found, "Found!!!");
+    // console.log(found, "Found!!!");
 
     if (found) {
       const result = await bcrypt.compare(
@@ -85,12 +85,17 @@ export const usersRepository = {
     return null;
   },
   async findUserByEmail(email: any) {
-    const result = await usersCollection.findOne({
-      $and: [
-        { "accountData.email": email },
-        { "emailConfirmation.isConfirmed": false },
-      ],
-    });
+    const result = await usersCollection.findOne(
+      // "accountData.email": email,
+      {
+        $and: [
+          { "accountData.email": email },
+          { "emailConfirmation.isConfirmed": false },
+        ],
+      }
+    );
+    console.log(result, "result");
+
     if (!result) return null;
     return result;
   },
@@ -110,7 +115,7 @@ export const usersRepository = {
       { "accountData.email": user.accountData.email },
       { $set: user }
     );
-    console.log(updateUserCode, "findUserAndUpdateConfirmCode");
+    // console.log(updateUserCode, "findUserAndUpdateConfirmCode");
 
     if (updateUserCode) {
       return updateUserCode;

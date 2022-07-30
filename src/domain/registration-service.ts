@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { add } from "date-fns";
-// import { usersRepository } from "../repositories/users-repository";
+
 const roundSalts = 10;
 export const registrationServise = {
   async registratUserByEmai(email: string, login: string, password: string) {
@@ -46,21 +46,16 @@ export const registrationServise = {
   async resendRegistration(email: any) {
     const foundUser = await usersRepository.findUserByEmail(email);
     if (!foundUser) return null;
-    console.log(foundUser.emailConfirmation.confirmCode);
+    // console.log(foundUser.emailConfirmation.confirmCode);
 
     foundUser.emailConfirmation.confirmCode = uuidv4();
 
     const updateCode = await usersRepository.findUserAndUpdateConfirmCode(
       foundUser
     );
-    console.log(
-      updateCode?.value?.emailConfirmation?.confirmCode,
-      "updateCode"
-    );
+    return updateCode;
 
-    const result = await emailManager.sendEmail(foundUser);
-
-    return false;
+    // return false;
 
     // const result = await emailManager.sendEmail(foundUser);
     // return result;

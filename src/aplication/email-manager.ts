@@ -18,7 +18,7 @@ export const emailManager = {
         subject: "registration", // Subject line
         html: `<a href="http://localhost:5001/auth/registration-confirmation?code=${registratedUser.emailConfirmation.confirmCode}">Click</a>`, // html body
       });
-      console.log("info", info);
+      // console.log("info", info);
       return true;
     } catch (error) {
       console.log(error);

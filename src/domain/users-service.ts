@@ -9,7 +9,6 @@ export type UserCreated = {
   id: string;
   login: string;
   password: string;
-  email: string;
 };
 export const userService = {
   async creatUser(user: User) {
@@ -19,7 +18,6 @@ export const userService = {
     const newUser = {
       id: uuidv4(),
       login: user.login,
-      email: user.email,
       password: passwordHash,
       createdAt: new Date(),
     };
@@ -35,10 +33,7 @@ export const userService = {
   async deleteUserById(id: string) {
     return await usersRepository.deleteUserById(id);
   },
-  async findUser(user: any) {
+  async findUser(user: User) {
     return await usersRepository.findUser(user);
-  },
-  async findUserById(id: any) {
-    return await usersRepository.findUserById(id);
   },
 };

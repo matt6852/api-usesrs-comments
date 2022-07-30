@@ -30,6 +30,7 @@ authUserRouter.post(
   "/registration",
   isUserValidRegistration,
   inputValidator,
+  antiDDoSMidleware,
   async (req: Request, res: Response) => {
     const { login, password, email } = req.body;
     const wrongField = await registrationServise.checkExistingUser({
@@ -60,6 +61,7 @@ authUserRouter.post(
 );
 authUserRouter.post(
   "/registration-confirmation",
+  antiDDoSMidleware,
   async (req: Request, res: Response) => {
     const { code } = req.query;
     if (!code) {

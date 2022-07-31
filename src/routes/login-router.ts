@@ -14,19 +14,24 @@ import { antiDDoSMidleware } from "../middlewares/auth-middleware";
 
 export const authUserRouter = Router({});
 
-authUserRouter.post("/login", async (req: Request, res: Response) => {
-  const { login, password, email } = req.body;
-  if (login && password) {
-    const user = await userService.findUser({ login, password });
-    if (user) {
-      const token = await jwtService.createJWT(user);
-      res.send(token);
-      return;
+authUserRouter.post(
+  "/login",
+  antiDDoSMidleware,
+  async (req: Request, res: Response) => {
+    const { login, password, email } = req.body;
+    if (login && password) {
+      const user = await userService.findUser({ login, password });
+      if (user) {
+        const token = await jwtService.createJWT(user);
+        res.send(token);
+        return;
+      }
     }
-  }
 
-  res.sendStatus(401);
-});
+    res.sendStatus(401);
+  }
+);
+
 authUserRouter.post(
   "/registration",
   isUserValidRegistration,
